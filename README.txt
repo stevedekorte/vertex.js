@@ -34,40 +34,40 @@ Each request is processed within a transaction and if any action in a request pr
 SAMPLE REQUEST
 --------------
 
-POST /
-Content-Type: application/json-request
-Content-Length: X
+	POST /
+	Content-Type: application/json-request
+	Content-Length: X
 
-[
-	["mk", "customers/John Doe/first name", "String", "John"],
-	["mread", "customers/John Doe/first name"]
-]
+	[
+		["mk", "customers/John Doe/first name", "String", "John"],
+		["mread", "customers/John Doe/first name"]
+	]
 
 
 SUCCESS RESPONSE
 ----------------
 
-Content-Type: application/json
-Content-Length: X
-Status-Code: 200
+	Content-Type: application/json
+	Content-Length: X
+	Status-Code: 200
 
-[
-	null,
-	"John",
-]
+	[
+		null,
+		"John",
+	]
 
 
 ERROR RESPONSE
 --------------
 
-Content-Type: application/json
-Content-Length: X
-Status-Code: 500
+	Content-Type: application/json
+	Content-Length: X
+	Status-Code: 500
 
-{
-	action: ["mwrite", "customers/Joe Shmoe/first name"],
-	error: "invalid path"
-}
+	{
+		action: ["mwrite", "customers/Joe Shmoe/first name"],
+		error: "invalid path"
+	}
 
 
 ERROR CONDITIONS
