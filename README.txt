@@ -8,19 +8,21 @@ vertex.js is a high performance graph database inspired by filesystems that supp
 DATABASE STRUCTURE
 ------------------
 
-The database structure is somewhat similar to a traditional filesystem. The database is composed of nodes. A node is an lexically ordered list of named slots whose values point to other nodes and a separate list of meta slots whose values contain data (non-null terminated strings). 
+The database is composed of nodes each of which have a lexically ordered list of named slots whose values point to other nodes and a separate list of meta slots whose values contain data. These lists are indexed (log(n) lookups) and support cursor-like operations so they can be use for most database applications.
+
+This is somewhat similar to a traditional filesystem except directories are now called "nodes" and contain separate namespaces for sub-directories ("slots") and files ("meta slots").
 
 
 META-SLOT CONVENTIONS
 ---------------------
 
-Every node's "size" meta slot is maintained by the database and should only be read. By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String and Number) should contain data values.
+Every node's "size" meta slot is maintained by the database and can only be read. By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String and Number) should contain data values.
 
 
 GARBAGE COLLECTION
 ------------------
 
-Every so many writes, Vertex starts a garbage collection cycle. Collector occurs by starting a timer which calls into vertex between requests. If there have been no requests since the last timer, this will give the garbage collector a small amount of time to do collection. After enough of these, the collection will be ready to sweep the database and collection will complete and the timer will be removed.
+Every so many writes, Vertex starts a garbage collection cycle which uses bits of server idle time to do collector marks. When complete, non-referenced nodes will be deleted. In this way, the database never accumulates unref
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS
@@ -66,7 +68,7 @@ ERROR RESPONSE
 
 	{
 		action: ["mwrite", "customers/Joe Shmoe/first name"],
-		error: "invalid path"
+		message: "invalid path"
 	}
 
 
@@ -102,7 +104,7 @@ mk(path, optionalType, optionalData)
 	Options:
 		optionalType: if provided, the node's "type" meta slot is set to the value.
 		optionalData: if provided, the node's "data" meta slot is set to the value.
-	Errors: An error is raised if the path does not exist unless optionalCreateIfAbsentBool is non-null.
+	Errors: none
 	Returns: null
 
 
@@ -125,22 +127,24 @@ ls(path, optionalCountNumber, optionalStart, optionalReverseBool, optionalInline
 		optionalInlineBool: [not yet implemented] if non-null, instead of each item 
 			being a slot name, it will be a list containing the slot name and a json 
 			object with the inlined values for primitive types such as strings and numbers.
+
+			Inline example. The Database node (meta slot names here are denoted with underscores):
+
+			{ 
+				"first name": { "_type": "String", "_data": "John" }, 
+				"age":  { "_type": "Number", "_data": "30" }, 
+			}
+
+			Would be inlined as:
+
+			{
+				["John Doe", { "first name": "John", "age": 30 }]
+			}
+
 		selectExpression: [not yet implemented] a string which will be evaled to a function 
 			used to select the matching results.
 	Errors: none
 
-	Inline example. The Database node (meta slot names here are denoted with underscores):
-
-	{ 
-		"first name": { "_type": "String", "_data": "John" }, 
-		"age":  { "_type": "Number", "_data": "30" }, 
-	}
-
-	Would be inlined as:
-
-	{
-		["John Doe", { "first name": "John", "age": 30 }]
-	}
 
 
 rm(path, slotName)
