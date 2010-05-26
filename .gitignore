@@ -1,0 +1,7 @@
+.DS_Store
+*.tc
+*.pdb
+*.wal
+db/*
+!db/.gitisdumb
+addons/*
