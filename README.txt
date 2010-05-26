@@ -92,11 +92,13 @@ API ACTIONS
 API ACTION DESCRIPTIONS
 -----------------------
 
-Where not otherwise stated, all arguments are assumed to be strings. Boolean values treat null for false and non-null (1 is recommended) for true.
+Where not otherwise stated, all arguments are assumed to be strings. 
+Boolean values treat null for false and non-null (1 is recommended) for true.
 
 mk(path, optionalType, optionalData)
 
-	Writes: Create a node at path (creating any necessary path components to that path). No change is made if the node is already present.
+	Writes: Create a node at path (creating any necessary path components 
+		to that path). No change is made if the node is already present.
 	Options:
 		optionalType: if provided, the node's "type" meta slot is set to the value.
 		optionalData: if provided, the node's "data" meta slot is set to the value.
@@ -116,11 +118,15 @@ ls(path, optionalCountNumber, optionalStart, optionalReverseBool, optionalInline
 	Writes: none
 	Returns: a list of slot names at path.
 	Options:
-		optionalStart: if given, the list starts at the first (or last, if optionalReverse is not null) key matching or after the optionalStart string. 
+		optionalStart: if given, the list starts at the first (or last, if 
+			optionalReverse is not null) key matching or after the optionalStart string. 
 		optionalReverseBool: if not null, the enumeration occurs in reverse order.
 		optionalCountNumber: if specified, limits the max number of returned results. The default value is 1000.
-		optionalInlineBool: [not yet implemented] if non-null, instead of each item being a slot name, it will be a list containing the slot name and a json object with the inlined values for primitive types such as strings and numbers.
-		selectExpression: [not yet implemented] a string which will be evaled to a function used to select the matching results.
+		optionalInlineBool: [not yet implemented] if non-null, instead of each item 
+			being a slot name, it will be a list containing the slot name and a json 
+			object with the inlined values for primitive types such as strings and numbers.
+		selectExpression: [not yet implemented] a string which will be evaled to a function 
+			used to select the matching results.
 	Errors: none
 
 	Inline example. The Database node (meta slot names here are denoted with underscores):
@@ -155,7 +161,8 @@ mread(path, name)
 
 	Writes: none
 	Errors: none
-	Returns: a string containing the value of meta slot named name at path or null if the path does not exist or slot is not present.
+	Returns: a string containing the value of meta slot named name at path 
+		or null if the path does not exist or slot is not present.
 	
 
 mls(path)
