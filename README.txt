@@ -10,7 +10,7 @@ DATABASE STRUCTURE
 
 The database is composed of nodes each of which have a lexically ordered list of named slots whose values point to other nodes and a separate list of meta slots whose values contain data. These lists are indexed (log(n) lookups) and support cursor-like operations so they can be use for most database applications.
 
-This is somewhat similar to a typical filesystem except directories (the equivalent of vertex's "nodes") contain separate namespaces for sub-directories ("slots") and files ("meta slots").
+This is similar to a typical filesystem except directories (the equivalent of vertex's "nodes") contain separate namespaces for sub-directories ("slots") and files ("meta slots").
 
 
 META-SLOT CONVENTIONS
