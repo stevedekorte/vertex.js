@@ -22,7 +22,7 @@ Every node's "size" meta slot is maintained by the database and can only be read
 GARBAGE COLLECTION
 ------------------
 
-Every so many writes, Vertex starts a garbage collection cycle which uses bits of server idle time to do collector marks. When complete, non-referenced nodes will be deleted. In this way, the database never accumulates unref
+Every so many writes, a garbage collection cycle is started which uses bits of server idle time to do collector marks. When complete, non-referenced nodes are deleted.
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS
@@ -115,7 +115,7 @@ link(destPath, slotName, sourcePath)
 	Returns: null
 
 
-ls(path, optionalCountNumber, optionalStart, optionalReverseBool, optionalInlineBool, selectExpression)
+ls(path, optionalMaxNumber, optionalStart, optionalReverseBool, optionalReturnCount, optionalInlineBool, selectExpression)
 
 	Writes: none
 	Returns: a list of slot names at path.
@@ -123,7 +123,8 @@ ls(path, optionalCountNumber, optionalStart, optionalReverseBool, optionalInline
 		optionalStart: if given, the list starts at the first (or last, if 
 			optionalReverse is not null) key matching or after the optionalStart string. 
 		optionalReverseBool: if not null, the enumeration occurs in reverse order.
-		optionalCountNumber: if specified, limits the max number of returned results. The default value is 1000.
+		optionalMaxNumber: if specified, limits the max number of returned results.
+		optionalReturnCount: Return only the count of the result list, and not the items themselves.
 		optionalInlineBool: [not yet implemented] if non-null, instead of each item 
 			being a slot name, it will be a list containing the slot name and a json 
 			object with the inlined values for primitive types such as strings and numbers.
@@ -182,5 +183,24 @@ mrm(path, name)
 	Errors: none
 	Returns: null
 
+
+TODO 
+----
+
+Security: 
+	node permissions and cookies
+	
+	nodes can have meta slots:
+		_user: username
+		_permissions:  ugo
+		_access: rwx
+
+	db has internal node /users/username/passwordhash
+
+	
+Tests: 
+	single script to run all tests
+	run on separate port
+	performance tests report
 
 
