@@ -10,13 +10,13 @@ DATABASE STRUCTURE
 
 The database is composed of nodes each of which have a lexically ordered list of named slots whose values point to other nodes and a separate list of meta slots whose values contain data. These lists are indexed (log(n) lookups) and support cursor-like operations so they can be use for most database applications.
 
-This is somewhat similar to a traditional filesystem except directories are now called "nodes" and contain separate namespaces for sub-directories ("slots"), files ("meta slots").
+This is somewhat similar to a typical filesystem except directories (the equivalent of vertex's "nodes") contain separate namespaces for sub-directories ("slots") and files ("meta slots").
 
 
 META-SLOT CONVENTIONS
 ---------------------
 
-Every node's "size" meta slot is maintained by the database and can only be read. By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String and Number) should contain data values.
+By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String and Number) should contain data values. The meta slot names "_user", "_permissions" and "_access" are reserved for future use.
 
 
 GARBAGE COLLECTION
@@ -189,18 +189,13 @@ TODO
 
 Security: 
 	node permissions and cookies
-	
-	nodes can have meta slots:
-		_user: username
-		_permissions:  ugo
-		_access: rwx
+	db internal node /_internal/users/username/passwordhash
 
-	db has internal node /users/username/passwordhash
-
-	
 Tests: 
 	single script to run all tests
 	run on separate port
 	performance tests report
+
+
 
 
