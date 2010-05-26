@@ -1,5 +1,10 @@
 require('./UnitTest')
 
+/*
+	TODO:
+		add size tests
+*/
+
 Tester = UnitTest.newSlots({
 	protoType: "PDBTest",
 }).setSlots({
@@ -142,6 +147,7 @@ Tester = UnitTest.newSlots({
 		pdb.collector().forceFullCollection()
 		//pdb.showRawKeyValues()
 		//writeln("after collect pdb.rawKeyCount() = ", pdb.rawKeyCount())
+		//pdb.show()
 		assert(pdb.rawKeyCount() == 1)
 		pdb.close()
 	},
@@ -149,7 +155,6 @@ Tester = UnitTest.newSlots({
 	test_speed: function()
 	{
 		var max = 1000
-
 
 		var t1 = new Date().getTime()
 		var pdb = this.newPdb().open()
