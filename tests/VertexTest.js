@@ -8,7 +8,7 @@ var sys = require('sys'), http = require('http');
 */
 
 
-TestRequest = Proto.newSlots({
+TestRequest = Proto.clone().newSlots({
 	protoType: "TestRequest",
 	requestItems: null,
 	expectedResponseItems: null,

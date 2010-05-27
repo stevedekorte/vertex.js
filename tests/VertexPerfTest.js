@@ -5,12 +5,8 @@ require("../lib/Vertex/Vertex");
 require("./VertexProcess");
 require("./AbProcess");
 
-writeln("VertexProcess ", VertexProcess.protoType())
-writeln("AbProcess ", AbProcess.protoType())
-
-process.exit()
-
 VertexPerfTest = Proto.clone().newSlots({
+	protoType: "VertexPerfTest",
 	vertexProcess: VertexProcess.clone(),
 	abProcess: AbProcess.clone()
 }).setSlots({
@@ -21,23 +17,20 @@ VertexPerfTest = Proto.clone().newSlots({
 	
 	didStart: function(proc)
 	{
-		writeln("VertexPerfTest didStart(", proc.protoType(), ")")
+		//writeln("VertexPerfTest didStart(", proc.protoType(), ")")
 		if(proc == this.vertexProcess())
 		{
-			var ab = AbProcess.clone()
-			writeln("starting abrocess ", ab.protoType())
-			ab.setDelegate(this).launch();
+			this.abProcess().setDelegate(this).launch();
 		}
 	},
 	
 	didExit: function(proc)
 	{
-		writeln("VertexPerfTest didExit ", proc.protoType(), ")")
+		//writeln("VertexPerfTest didExit(", proc.protoType(), ")")
 		if(proc == this.abProcess())
 		{
 			this.vertexProcess().kill();
+			writeln("rps: ", this.abProcess().requestsPerSecond());
 		}
-		
-		writeln("rps: ", this.abProcess().requestsPerSecond());
 	}	
 }).run();
