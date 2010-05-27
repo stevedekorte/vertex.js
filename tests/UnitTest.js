@@ -11,24 +11,25 @@ UnitTest = Proto.clone().newSlots({
 }).setSlots({
 	run: function()
 	{
-		writeln(this.protoType(), " test:")
+		writeln(this.protoType(), ":")
 		var names = this.proto().slotNames()
 		for (i = 0; i < names.length; i ++)
 		{
 			var name = names[i]
 			if(name.beginsWith("test"))
 			{
-				writeln("  ", name)
+				sys.print("  ", name.after("_"))
 				this[name].call(this)
-				writeln("    OK")
+				writeln(" OK")
 			}
 		}
-		writeln("  ALL TESTS PASSED")
+		//writeln("")
+		//writeln("  ALL TESTS PASSED")
 	},
 
-	runSilnet: function()
+	runSilent: function()
 	{
-		writeln(this.protoType(), " test:")
+		writeln(this.protoType(), ":")
 		var names = this.proto().slotNames()
 		for (i = 0; i < names.length; i ++)
 		{

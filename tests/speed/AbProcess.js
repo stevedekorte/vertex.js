@@ -1,8 +1,7 @@
-var sys = require('sys'), spawn = require('child_process').spawn;
-require("../lib/Crux/Crux");
-require("../lib/NodeCrux/NodeCrux");
-require("../lib/Vertex/Vertex");	
-	
+var sys = require('sys');
+var spawn = require('child_process').spawn;
+require("../../lib/lib");
+
 AbProcess = Proto.clone().newSlots({
 	protoType: "AbProcess",
 	numberOfRequests: 1000,
@@ -33,7 +32,7 @@ AbProcess = Proto.clone().newSlots({
 
 		ab.addListener('exit', function (code) { 
 			var rps = self._output.after("Requests per second:").before("[").trim();
-			self.setRequestsPerSecond(new Number(rps));
+			self.setRequestsPerSecond(Math.floor(new Number(rps)));
 			//sys.puts("requestsPerSecond: " + rps);
 			if (self.delegate())
 			{

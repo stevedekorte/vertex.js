@@ -1,5 +1,10 @@
-require('./UnitTest');
-var sys = require('sys'), http = require('http');
+var sys = require('sys');
+var http = require('http');
+var fs = require('fs');
+
+require('../UnitTest');
+require("../../lib/lib");
+require("../VertexProcess");
 
 /*
 	TODO:
@@ -7,13 +12,16 @@ var sys = require('sys'), http = require('http');
 		- add tests for all optional args
 */
 
+var testPort = 8123
 
 TestRequest = Proto.clone().newSlots({
 	protoType: "TestRequest",
 	requestItems: null,
 	expectedResponseItems: null,
 	responseItems: null,
-	testName: "?"
+	testName: "?",
+	vertexProcess: null,
+	delegate: null
 }).setSlots({
 	
 	doesMatch: function()
@@ -23,25 +31,27 @@ TestRequest = Proto.clone().newSlots({
 	
 	gotResponse: function(response)
 	{
+		//writeln("gotResponse '",response._data, "'")
 		this.setResponseItems(JSON.parse(response._data))
-		writeln("  " + this.testName())
+		sys.print("  " + this.testName())
 		if(this.doesMatch())
 		{
-			writeln("    OK")
+			writeln(" OK")
 		}
 		else
 		{
 			var r = this.responseItems();
-			writeln("\nerror: " + this.expectedResponseItems() + " != " + r + "\n");
+			//writeln("\nerror: " + this.expectedResponseItems() + " != " + r + "\n");
 			throw new Error("response:\n\n" + JSON.stringify(r))
 		}
+		this.delegate().didFinish(this)
 	},
 
 	send: function()
 	{
+		var self = this;
 		var body = JSON.stringify(this.requestItems())
-		//writeln("sending: ", body)
-		var httpClient = http.createClient(8000, '127.0.0.1');
+		var httpClient = http.createClient(8123, '127.0.0.1');
 		var request = httpClient.request('GET', '/', 
 			{
 				'host': '127.0.0.1',
@@ -49,11 +59,11 @@ TestRequest = Proto.clone().newSlots({
 			    "Content-Length": body.length
 			});
 			
-		var self = this;
 
 		request.addListener('response', 
 			function (response) 
 			{
+				//writeln("response")
 				request.response = response
 				response.request = request
 				response.setEncoding('utf8');
@@ -62,6 +72,7 @@ TestRequest = Proto.clone().newSlots({
 				response.addListener('data',
 					function (chunk)
 					{
+						//writeln("got data: ", chunk)
 						response._data = response._data + chunk;
 					}
 				);
@@ -69,6 +80,7 @@ TestRequest = Proto.clone().newSlots({
 				response.addListener('end', 
 					function ()
 					{
+						//writeln("end")
 						self.gotResponse(response);
 					}
 				);
@@ -78,17 +90,42 @@ TestRequest = Proto.clone().newSlots({
 		//writeln("SENDING data:", body)
 		request.write(body, 'utf8')
 		request.end();
+		//writeln("sent ", body)
 	}
 })
 
-
 VertexTest = UnitTest.newSlots({
-	protoType: "VertexTest"
+	protoType: "VertexTest",
+	activeTests: 0
 }).setSlots({
 	
 	sendTest: function(a, b, c)
 	{
-		TestRequest.clone().setTestName(a).setRequestItems(b).setExpectedResponseItems(c).send()
+		//writeln("sending ", this._activeTests)
+		this._activeTests = this._activeTests + 1;
+		TestRequest.clone().setDelegate(this).setTestName(a).setRequestItems(b).setExpectedResponseItems(c).send();
+	},
+	
+	didStart: function(proc)
+	{
+		//writeln("didStart")
+		this.runSilent()
+	},
+	
+	didExit: function(proc)
+	{
+		
+	},
+	
+	didFinish: function(test)
+	{
+		//writeln("didFinish ", this._activeTests);
+		this._activeTests = this._activeTests - 1;
+		if(this._activeTests == 0)
+		{
+			//writeln("done");
+			vertexProcess.kill();
+		}
 	},
 
 	test_mk: function()
@@ -107,7 +144,7 @@ VertexTest = UnitTest.newSlots({
 			]
 		);
 	},
-	
+
 	test_link: function()
 	{
 		this.sendTest(
@@ -189,13 +226,13 @@ VertexTest = UnitTest.newSlots({
 				null,
 				null,
 				null,
-				["data", "size", "type"]
+				["data", "type"]
 			]
 		)
 		
 		// need to add tests for options
 	},
-	
+
 	test_mrm: function()
 	{
 		this.sendTest(
@@ -214,9 +251,18 @@ VertexTest = UnitTest.newSlots({
 				null,
 				null,
 				null,
-				["data", "size"]
+				["data"]
 			]
 		)
 	}
-}).clone().runSilnet()
+})
 
+if(true)
+{
+	var vt = VertexTest.clone()
+	var vertexProcess = VertexProcess.clone().setPort(testPort).setDelegate(vt).launch();
+}
+else
+{
+	VertexTest.clone().runSilent()
+}

@@ -1,4 +1,5 @@
-require('./UnitTest');
+require('../UnitTest');
+require("../../lib/lib");
 
 VertexBaseTest = UnitTest.newSlots({
 	protoType: "VertexBaseTest",
@@ -17,9 +18,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_mk: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/bar"]
 		])
 
@@ -35,9 +36,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_link: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/bar/a"],
 			["mk", "foo/moo"],
 			["link", "foo/moo", "a", "foo/bar/a"]
@@ -54,9 +55,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_ls: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/a"],
 			["mk", "foo/b"],
 			["mk", "foo/c"],
@@ -75,9 +76,9 @@ VertexBaseTest = UnitTest.newSlots({
 
 	test_mwrite: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"]
@@ -95,9 +96,9 @@ VertexBaseTest = UnitTest.newSlots({
 
 	test_mls: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"],
@@ -109,16 +110,16 @@ VertexBaseTest = UnitTest.newSlots({
 		assert(r[1] == null)
 		assert(r[2] == null)
 		//writeln("r[3] = ", r[3])
-		assert(r[3].isEqual(["data", "size", "type"]))
+		assert(r[3].isEqual(["data", "type"]))
 			
 		v.close()
 	},
 	
 	test_mread: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"],
@@ -138,9 +139,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_mrm: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"],
@@ -153,7 +154,7 @@ VertexBaseTest = UnitTest.newSlots({
 		assert(r[1] == null)
 		assert(r[2] == null)
 		assert(r[3] == null)
-		assert(r[4].isEqual(["data", "size"]))
+		assert(r[4].isEqual(["data"]))
 			
 		v.close()		
 	}
