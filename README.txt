@@ -9,7 +9,8 @@ INSTALL AND RUN
 ---------------
 
 1) install node.js 
-2) in the vertex.js folder, run:
+2) install tokyocabinet
+3) in the vertex.js folder, run:
 
 	node server.js
 
@@ -33,7 +34,7 @@ By convention the meta slots "type" and "data" are used to indicate the node's t
 GARBAGE COLLECTION
 ------------------
 
-Nodes are never removed directly in Vertex, only slots are. When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection (both mark and sweep stages are incremental).
+Nodes are never removed directly in Vertex, only slots are. When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection of unreferenced nodes.
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS
@@ -86,7 +87,7 @@ ERROR RESPONSE
 ERROR CONDITIONS
 ----------------
 
-Errors are only raised when the database would be left in an undesired state. So removes never raise errors and reads return null if the path is absent. Writes and links do raise an error if the path does not exists unless an option to create the path is used.
+Errors are only raised when the database would be left in an undesired state. So removes never raise errors and reads return null if the path is absent. While writes and links do raise an error if the path does not exists.
 
 
 API ACTIONS
