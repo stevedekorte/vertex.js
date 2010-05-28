@@ -8,7 +8,7 @@ ADVANTAGES
 
 Speed
 
-Vertex.js services 100,000s of reads per second, 10,000s of writes per second and 1,000s of request per second (official benchmarks forthcoming).
+Vertex.js services 100,000s of reads per second, 10,000s of writes per second and 1,000s of requests per second (official benchmarks forthcoming).
 
 Flexibility
 
