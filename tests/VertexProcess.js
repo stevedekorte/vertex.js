@@ -1,17 +1,18 @@
 var sys = require('sys'), spawn = require('child_process').spawn;
 require("../lib/Crux/Crux");
 
-VertexProcess = Proto.newSlots({
+VertexProcess = Proto.clone().newSlots({
 	protoType: "VertexProcess",
 	exePath: '../server.js',
 	port: '8123',
 	dbPath: 'test.db',
 	delegate: null,
-	silent: false
+	silent: false,
+	child: null
 }).setSlots({
 	launch: function()
 	{
-		writeln("VertexProcess launch()")
+		//writeln("VertexProcess launch()")
 		var self = this;
 		
 		var args = [
@@ -19,13 +20,13 @@ VertexProcess = Proto.newSlots({
 			'-port', this.port(), 
 			'-db', this.dbPath()];
 			
-		writeln("node ", args.join(" "))
-		vdb = spawn('node', args);
+		//writeln("node ", args.join(" "))
+		this._child = spawn('node', args);
 			
-		vdb.addListener('data', function (data) { });
+		this._child.addListener('data', function (data) { });
 		//if(this._silent) 
 		//{ 
-			vdb.stdout.addListener('data', function (data) {}); 
+			this._child.stdout.addListener('data', function (data) {}); 
 		//} 
 		//else
 		//{ 
@@ -36,13 +37,22 @@ VertexProcess = Proto.newSlots({
 		//{ vdb.stderr.addListener('data', function (data) {}); }
 		//else
 		//{ 
-			vdb.stderr.addListener('data', function (data) { sys.puts(data); }); 
+			this._child.stderr.addListener('data', function (data) { sys.puts(data); }); 
 		//} 
 	
-		vdb.addListener('exit', function (code) { self.didStart(); });
+		this._child.addListener('exit', function (code) { self.didExit(); });
 		
-		writeln("setTimeout()")
 		this._timeoutId = setTimeout(function () { self.didStart(); }, 1000); // hack - need to check for ready output
+	},
+	
+	
+	didStart: function()
+	{
+		clearTimeout(this._timeoutId)
+		if (this.delegate())
+		{
+			this.delegate().didStart(this);
+		}		
 	},
 	
 	didExit: function()
@@ -53,13 +63,10 @@ VertexProcess = Proto.newSlots({
 		}		
 	},
 	
-	didStart: function()
+	kill: function()
 	{
-		clearTimeout(this._timeoutId)
-		if (this.delegate())
-		{
-			this.delegate().didStart(this);
-		}		
+		//writeln("VertexProcess kill")
+		this._child.kill()
 	}
 });
 
