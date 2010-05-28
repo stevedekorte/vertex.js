@@ -7,21 +7,27 @@ ADVANTAGES
 ----------
 
 Speed
+
 Vertex.js services 100,000s of reads per second, 10,000s of writes per second and 1,000s of request per second (official benchmarks forthcoming).
 
 Flexibility
+
 Vertex.js is schemaless.  It naturally models arbitrary graphs.  You avoid the hassles encountered when modeling irregular data with relational databases.
 
 Uptime
+
 Granular locking allowing for data migrations that only disable individual features for individual user accounts.
 
 Scalability
+
 Graphs make it easy to manually partition data.  You just move a path to a new vertex.js instance.
 
 Extensibility
+
 Vertex.js supports addons.  You can modify the API and implement complex queries, all using javascript.
 
 REST
+
 All vertices in the database are accessible vias paths.  This provides natural mapping between URLs and DB objects.
 
 INSTALL AND RUN
