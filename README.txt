@@ -16,7 +16,7 @@ Vertex.js is schemaless.  It naturally models arbitrary graphs.  You avoid the h
 
 Uptime
 
-Granular locking allowing for data migrations that only disable individual features for individual user accounts.
+Granular locking allows for data migrations that only disable individual features for individual user accounts.
 
 Scalability
 
