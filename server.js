@@ -1,15 +1,15 @@
-require("./lib/Crux/Crux");
-require("./lib/NodeCrux/NodeCrux");
-require("./lib/Vertex/Vertex");
-
+require("./lib/lib");
 var vertex = Vertex.init()
 
 var sys = require('sys');
+var spawn = require('child_process').spawn;
 var args = process.argv;
 args.shift();
 args.shift();
 
-var option; 
+var option;
+var testProcess = null;
+
 while (option = args.shift())
 {
 	var value = args.shift();
@@ -24,6 +24,29 @@ while (option = args.shift())
 	{
 		vertex.setPort(new Number(value));
 	} 
+	else if (option == "-test")
+	{
+		//process.chdir("./tests")
+		testProcess = spawn('./runtests.sh', []);
+		testProcess.stdout.addListener('data', function (data) { sys.puts(data); });
+		testProcess.stderr.addListener('data', function (data) { sys.puts(data); });
+	}
+	else if (option == "-help")
+	{
+		writeln("SYNOPSIS")
+		writeln("    node server.js -db path -port port")
+		writeln("")
+		writeln("DESCRIPTION")
+		writeln("     vertex.js is a graph database server inspired by filesystems. See docs for API info.")
+		writeln("")
+		writeln("    -db path")
+		writeln("          Set the path to the database file. Default is db/vertex.vdb.")
+		writeln("")
+		writeln("    -port port")
+		writeln("          Set the port the server should run on. Default is 8000.")
+		writeln("")
+		process.exit()
+	}
 	else
 	{
 		sys.puts("Unknown option '" + option + "'")
@@ -31,4 +54,7 @@ while (option = args.shift())
 	}
 }
 
-vertex.start();
+if(testProcess == null)
+{
+	vertex.start();
+}

@@ -1,12 +1,9 @@
-require("../lib/Crux/Crux");
-require("../lib/NodeCrux/NodeCrux");
-require("../lib/Vertex/Vertex");
-
-require("./VertexProcess");
+require("../../lib/lib");
+require("../VertexProcess");
 require("./AbProcess");
 
-VertexPerfTest = Proto.clone().newSlots({
-	protoType: "VertexPerfTest",
+VertexSpeedTest = Proto.clone().newSlots({
+	protoType: "VertexSpeedTest",
 	vertexProcess: VertexProcess.clone(),
 	abProcess: AbProcess.clone()
 }).setSlots({
@@ -30,7 +27,8 @@ VertexPerfTest = Proto.clone().newSlots({
 		if(proc == this.abProcess())
 		{
 			this.vertexProcess().kill();
-			writeln("rps: ", this.abProcess().requestsPerSecond());
+			writeln("VertexPerformance test:")
+			writeln("  ", this.abProcess().requestsPerSecond(), " requests per second");
 		}
 	}	
 }).run();

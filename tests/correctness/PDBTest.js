@@ -1,4 +1,4 @@
-require('./UnitTest')
+require('../UnitTest')
 
 /*
 	TODO:
@@ -11,10 +11,10 @@ Tester = UnitTest.newSlots({
 	
 	newPdb: function()
 	{
-		return PDB.clone().setPath("test.pdb").vanish()
+		return PDB.clone().setPath("test.db").vanish()
 	},
 	
-	testOpenVanishAndExists: function()
+	test_openVanishAndExists: function()
 	{
 		var pdb = this.newPdb()
 		assert(pdb.exists() == false)
@@ -25,7 +25,7 @@ Tester = UnitTest.newSlots({
 		assert(pdb.exists() == false)
 	},
 	
-	testRoot: function()
+	test_root: function()
 	{
 		var pdb = this.newPdb().open()
 		var root = pdb.root()
@@ -35,7 +35,7 @@ Tester = UnitTest.newSlots({
 		pdb.close()
 	},
 
-	testBeginCommit: function()
+	test_beginCommit: function()
 	{
 		var pdb = this.newPdb().open()
 		pdb.begin()
@@ -48,7 +48,7 @@ Tester = UnitTest.newSlots({
 		pdb.close()
 	},
 	
-	testBeginAbort: function()
+	test_beginAbort: function()
 	{
 		var pdb = this.newPdb().open()
 		pdb.begin()
@@ -61,7 +61,7 @@ Tester = UnitTest.newSlots({
 		pdb.close()
 	},
 	
-	testCursor: function()
+	test_cursor: function()
 	{
 		var pdb = this.newPdb().open()
 		var cur = pdb.newCursor()
@@ -75,7 +75,7 @@ Tester = UnitTest.newSlots({
 		pdb.close()
 	},
 	
-	testRemoveAt: function()
+	test_removeAt: function()
 	{
 		var pdb = this.newPdb().open()
 		pdb.begin()
@@ -93,7 +93,7 @@ Tester = UnitTest.newSlots({
 		pdb.close()
 	},
 	
-	testSizeAt: function()
+	test_sizeAt: function()
 	{
 		var pdb = this.newPdb().open()
 		pdb.begin()
@@ -104,7 +104,7 @@ Tester = UnitTest.newSlots({
 		pdb.close()
 	},
 	
-	testAtAndAtPut: function()
+	test_atAndAtPut: function()
 	{
 		var max = 10000;
 		var pdb = this.newPdb().open()
@@ -126,7 +126,7 @@ Tester = UnitTest.newSlots({
 		pdb.close()		
 	},
 	
-	testCollector: function()
+	test_collector: function()
 	{		
 		var max = 1000;
 		var pdb = this.newPdb().open()
@@ -150,60 +150,6 @@ Tester = UnitTest.newSlots({
 		//pdb.show()
 		assert(pdb.rawKeyCount() == 1)
 		pdb.close()
-	},
-	
-	test_speed: function()
-	{
-		var max = 1000
-
-		var t1 = new Date().getTime()
-		var pdb = this.newPdb().open()
-		pdb.begin()
-		var aNode = pdb.root().mk("a")
-		for(var i = 0; i < max; i ++)
-		{
-			aNode.mk(new String(i))
-		}
-		pdb.commit()
-		pdb.close()
-		var t2 = new Date().getTime()
-		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln(Math.floor(max/dt) + " sync group writes per second")
-		
-		
-		
-		var t1 = new Date().getTime()
-		var pdb = this.newPdb().open()
-		var aNode = pdb.root().mk("a")
-		for(var i = 0; i < max; i ++)
-		{
-			pdb.begin()
-			aNode.mk(new String(i))
-			pdb.commit()
-		}
-		pdb.close()
-		var t2 = new Date().getTime()
-		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln(Math.floor(max/dt) + " individual sync writes per second")
-
-		
-		max = 100000
-		var t1 = new Date().getTime()
-		pdb.open()
-		//var pdb = this.newPdb().open()
-		var aNode = pdb.root().mk("a")
-		for(var i = 0; i < max; i ++)
-		{
-			aNode.mread(new String(i))
-		}
-		pdb.close()
-		var t2 = new Date().getTime()
-		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln(Math.floor(max/dt) + " reads per second")
-
 	}
 
 }).clone().run()

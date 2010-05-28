@@ -2,7 +2,18 @@
 ABOUT
 -----
 
-vertex.js is a high performance graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Steve Dekorte and Rich Collins. 
+vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Steve Dekorte and Rich Collins. 
+
+
+INSTALL AND RUN
+---------------
+
+1) install node.js 
+2) in the vertex.js folder, run:
+
+	node server.js
+
+   Run "node server.js -help" for a list of command line options.
 
 
 DATABASE STRUCTURE
@@ -16,13 +27,13 @@ This is similar to a typical filesystem except directories (the equivalent of ve
 META-SLOT CONVENTIONS
 ---------------------
 
-By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String and Number) should contain data values. The meta slot names "_user", "_permissions" and "_access" are reserved for future use.
+By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String, Number, etc) should contain data values. The meta slot names "_user", "_permissions" and "_access" are reserved for future use.
 
 
 GARBAGE COLLECTION
 ------------------
 
-Every so many writes, a garbage collection cycle is started which uses bits of server idle time to do collector marks. When complete, non-referenced nodes are deleted.
+Nodes are never removed directly in Vertex, only slots are. When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection (both mark and sweep stages are incremental).
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS

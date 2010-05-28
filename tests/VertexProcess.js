@@ -1,9 +1,10 @@
-var sys = require('sys'), spawn = require('child_process').spawn;
-require("../lib/Crux/Crux");
+var sys = require('sys');
+var spawn = require('child_process').spawn;
+require("../lib/lib");
 
 VertexProcess = Proto.clone().newSlots({
 	protoType: "VertexProcess",
-	exePath: '../server.js',
+	exePath: '../../server.js',
 	port: '8123',
 	dbPath: 'test.db',
 	delegate: null,
@@ -17,24 +18,26 @@ VertexProcess = Proto.clone().newSlots({
 		
 		var args = [
 			this.exePath(), 
-			'-port', this.port(), 
+			'-port', new String(this.port()), 
 			'-db', this.dbPath()];
 			
 		//writeln("node ", args.join(" "))
 		this._child = spawn('node', args);
 			
-		this._child.addListener('data', function (data) { });
+		//this._child.addListener('data', function (data) { });
 		//if(this._silent) 
 		//{ 
 			this._child.stdout.addListener('data', function (data) {}); 
 		//} 
 		//else
 		//{ 
-		//	vdb.stdout.addListener('data', function (data) { sys.puts(data); }); 
+			//this._child.stdout.addListener('data', function (data) { sys.puts(data); }); 
 		//} 
 		
 		//if(this._silent) 
-		//{ vdb.stderr.addListener('data', function (data) {}); }
+		//{ 
+			//vdb.stderr.addListener('data', function (data) {}); 
+		//}
 		//else
 		//{ 
 			this._child.stderr.addListener('data', function (data) { sys.puts(data); }); 
@@ -43,6 +46,7 @@ VertexProcess = Proto.clone().newSlots({
 		this._child.addListener('exit', function (code) { self.didExit(); });
 		
 		this._timeoutId = setTimeout(function () { self.didStart(); }, 1000); // hack - need to check for ready output
+		return this;
 	},
 	
 	

@@ -1,4 +1,6 @@
-require('./UnitTest');
+require('../UnitTest');
+require("../../lib/lib");
+var sys = require("sys");
 
 VertexBaseTest = UnitTest.newSlots({
 	protoType: "VertexBaseTest",
@@ -17,9 +19,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_mk: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/bar"]
 		])
 
@@ -35,9 +37,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_link: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/bar/a"],
 			["mk", "foo/moo"],
 			["link", "foo/moo", "a", "foo/bar/a"]
@@ -54,9 +56,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_ls: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/a"],
 			["mk", "foo/b"],
 			["mk", "foo/c"],
@@ -75,9 +77,9 @@ VertexBaseTest = UnitTest.newSlots({
 
 	test_mwrite: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"]
@@ -95,9 +97,9 @@ VertexBaseTest = UnitTest.newSlots({
 
 	test_mls: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"],
@@ -109,16 +111,16 @@ VertexBaseTest = UnitTest.newSlots({
 		assert(r[1] == null)
 		assert(r[2] == null)
 		//writeln("r[3] = ", r[3])
-		assert(r[3].isEqual(["data", "size", "type"]))
+		assert(r[3].isEqual(["data", "type"]))
 			
 		v.close()
 	},
 	
 	test_mread: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"],
@@ -138,9 +140,9 @@ VertexBaseTest = UnitTest.newSlots({
 	
 	test_mrm: function()
 	{
-		var v = Vertex.clone().vanish().open()
+		var v = Vertex.clone().setPath("test.db").vanish().open()
 
-		var r = v.handleRequestItems([
+		var r = v.handleRequestItemsWithinCommmit([
 			["mk", "foo/name"],
 			["mwrite", "foo/name", "type", "String"],
 			["mwrite", "foo/name", "data", "Joe Blow"],
@@ -153,8 +155,56 @@ VertexBaseTest = UnitTest.newSlots({
 		assert(r[1] == null)
 		assert(r[2] == null)
 		assert(r[3] == null)
-		assert(r[4].isEqual(["data", "size"]))
+		assert(r[4].isEqual(["data"]))
 			
 		v.close()		
+	},
+	
+	test_idle_collector: function()
+	{
+		var v = Vertex.clone().setPath("test.db").vanish().open();
+
+		sys.print(" ..")
+		var maxi = 50;
+		var maxj = 50;
+		for(var i = 0; i < maxi; i++)
+		{
+			var request = [];
+			for(var j = 0; j < maxj; j++)
+			{
+				var path = (1000 + i) + "/" + (1000 + j);
+				//writeln("path: ", path)
+				request.push(["mk", path])
+			}
+			
+			//writeln("size: " + v._pdb.sizeInBytes() + " " + v._pdb.collector().needsIdle())
+			var r = v.handleRequestItemsWithinCommmit(request)
+		}
+		
+		var totalShouldBe = 1 + maxi + maxi*maxj;
+		assert(v._pdb.nodeCount(), totalShouldBe)
+		
+		maxi = maxi/2;
+		var request = [];
+		for(var i = 0; i < maxi; i++)
+		{
+			request.push(["rm", "",  "" + (1000 + i)])
+		}
+		var r = v.handleRequestItemsWithinCommmit(request)
+				
+		v.updateIdleTimerIfNeeded()
+		var self = this;
+		setTimeout(function() { self.done_test_collector(v, maxi, maxj); }, 1000)
+			
+		return ".."	
+	},
+	
+	done_test_collector: function(v, maxi, maxj)
+	{
+		//writeln("nodes after collector = " + v._pdb.nodeCount())
+		var totalShouldBe = 1 + maxi + maxi*maxj;
+		assert(v._pdb.nodeCount(), totalShouldBe)
+		writeln("OK")
+		v.close()
 	}
 }).clone().run()
