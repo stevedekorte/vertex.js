@@ -1,9 +1,34 @@
-
 ABOUT
 -----
 
 vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Steve Dekorte and Rich Collins. 
 
+ADVANTAGES
+----------
+
+Speed
+
+Vertex.js services 100,000s of reads per second, 10,000s of writes per second and 1,000s of requests per second (official benchmarks forthcoming).
+
+Flexibility
+
+Vertex.js is schemaless.  It naturally models arbitrary graphs.  You avoid the hassles encountered when modeling irregular data with relational databases.
+
+Uptime
+
+Granular locking allows for data migrations that only disable individual features for individual user accounts.
+
+Scalability
+
+Graphs make it easy to manually partition data.  You just move a path to a new vertex.js instance.
+
+Extensibility
+
+Vertex.js supports addons.  You can modify the API and implement complex queries, all using javascript.
+
+REST
+
+All vertices in the database are accessible vias paths.  This provides natural mapping between URLs and DB objects.
 
 INSTALL AND RUN
 ---------------
@@ -40,7 +65,7 @@ Nodes are never removed directly in Vertex, only slots are. When the database gr
 REQUESTS, RESPONSES AND TRANSACTIONS
 ------------------------------------
 
-API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and it's arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
+API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
 Each request is processed within a transaction and if any action in a request produces an error, no further actions are processed and any writes that were made within the request are aborted (not committed to the database). The HTTP response will have a 500 status and a description of the action that caused the error and the reason for the error.
 
