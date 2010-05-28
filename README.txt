@@ -8,12 +8,13 @@ vertex.js is a graph database inspired by filesystems that supports automatic ga
 INSTALL AND RUN
 ---------------
 
-1) if absent, install node.js 
+1) install node.js 
 2) in the vertex.js folder, run:
 
 	node server.js
 
    Run "node server.js -help" for a list of command line options.
+
 
 DATABASE STRUCTURE
 ------------------
@@ -32,7 +33,7 @@ By convention the meta slots "type" and "data" are used to indicate the node's t
 GARBAGE COLLECTION
 ------------------
 
-When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses bits of server idle time to do incremental collection (both mark and sweep stages are incremental). When complete, non-referenced nodes are deleted.
+Nodes are never removed directly in Vertex, only slots are. When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection (both mark and sweep stages are incremental).
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS
