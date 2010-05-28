@@ -164,14 +164,6 @@ VertexBaseTest = UnitTest.newSlots({
 	{
 		var v = Vertex.clone().setPath("test.db").vanish().open();
 
-		var info = v.handleRequestItemsWithinCommmit([["dbinfo"]])[0];
-		//var info = v.api_dbinfo(["dbinfo"])
-
-		/*
-		writeln("info = ", info)
-		writeln("info.collector.lastStartDate: " + info.collector.lastStartDate)
-		writeln("info.collector.lastEndDate:   " + info.collector.lastEndDate)
-		*/
 		sys.print(" ..")
 		var maxi = 50;
 		var maxj = 50;
@@ -191,7 +183,6 @@ VertexBaseTest = UnitTest.newSlots({
 		
 		var totalShouldBe = 1 + maxi + maxi*maxj;
 		assert(v._pdb.nodeCount(), totalShouldBe)
-		//writeln("nodes after writes = " + v._pdb.nodeCount(), " = ", totalShouldBe)
 		
 		maxi = maxi/2;
 		var request = [];
@@ -205,13 +196,11 @@ VertexBaseTest = UnitTest.newSlots({
 		var self = this;
 		setTimeout(function() { self.done_test_collector(v, maxi, maxj); }, 1000)
 			
-		//v.close()	 // CAN'T CLOSE YET - GC NEEDS TO RUN
 		return ".."	
 	},
 	
 	done_test_collector: function(v, maxi, maxj)
 	{
-		//var info = v.api_dbinfo(["dbinfo"])
 		//writeln("nodes after collector = " + v._pdb.nodeCount())
 		var totalShouldBe = 1 + maxi + maxi*maxj;
 		assert(v._pdb.nodeCount(), totalShouldBe)

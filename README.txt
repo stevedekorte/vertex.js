@@ -5,6 +5,12 @@ ABOUT
 vertex.js is a high performance graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Steve Dekorte and Rich Collins. 
 
 
+INSTALL AND RUN
+---------------
+
+1) if absent, install node.js 
+2) in the vertex.js folder, run "node server.js". Run "node server.js -help" for a list of command line options.
+
 DATABASE STRUCTURE
 ------------------
 
@@ -22,7 +28,7 @@ By convention the meta slots "type" and "data" are used to indicate the node's t
 GARBAGE COLLECTION
 ------------------
 
-Every so many writes, a garbage collection cycle is started which uses bits of server idle time to do collector marks. When complete, non-referenced nodes are deleted.
+Every so many writes, a garbage collection cycle is started which uses bits of server idle time to do incremental collection (both mark and sweep stages are incrmental). When complete, non-referenced nodes are deleted.
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS
