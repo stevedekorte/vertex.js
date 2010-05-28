@@ -9,7 +9,11 @@ INSTALL AND RUN
 ---------------
 
 1) if absent, install node.js 
-2) in the vertex.js folder, run "node server.js". Run "node server.js -help" for a list of command line options.
+2) in the vertex.js folder, run:
+
+	node server.js
+
+   Run "node server.js -help" for a list of command line options.
 
 DATABASE STRUCTURE
 ------------------
@@ -22,13 +26,13 @@ This is similar to a typical filesystem except directories (the equivalent of ve
 META-SLOT CONVENTIONS
 ---------------------
 
-By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String and Number) should contain data values. The meta slot names "_user", "_permissions" and "_access" are reserved for future use.
+By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String, Number, etc) should contain data values. The meta slot names "_user", "_permissions" and "_access" are reserved for future use.
 
 
 GARBAGE COLLECTION
 ------------------
 
-Every so many writes, a garbage collection cycle is started which uses bits of server idle time to do incremental collection (both mark and sweep stages are incrmental). When complete, non-referenced nodes are deleted.
+When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses bits of server idle time to do incremental collection (both mark and sweep stages are incremental). When complete, non-referenced nodes are deleted.
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS
