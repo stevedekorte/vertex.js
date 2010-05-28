@@ -1,5 +1,6 @@
 require('../UnitTest');
 require("../../lib/lib");
+var sys = require("sys");
 
 VertexBaseTest = UnitTest.newSlots({
 	protoType: "VertexBaseTest",
@@ -157,5 +158,64 @@ VertexBaseTest = UnitTest.newSlots({
 		assert(r[4].isEqual(["data"]))
 			
 		v.close()		
+	},
+	
+	test_idle_collector: function()
+	{
+		var v = Vertex.clone().setPath("test.db").vanish().open();
+
+		var info = v.handleRequestItemsWithinCommmit([["dbinfo"]])[0];
+		//var info = v.api_dbinfo(["dbinfo"])
+
+		/*
+		writeln("info = ", info)
+		writeln("info.collector.lastStartDate: " + info.collector.lastStartDate)
+		writeln("info.collector.lastEndDate:   " + info.collector.lastEndDate)
+		*/
+		sys.print(" ..")
+		var maxi = 50;
+		var maxj = 50;
+		for(var i = 0; i < maxi; i++)
+		{
+			var request = [];
+			for(var j = 0; j < maxj; j++)
+			{
+				var path = (1000 + i) + "/" + (1000 + j);
+				//writeln("path: ", path)
+				request.push(["mk", path])
+			}
+			
+			//writeln("size: " + v._pdb.sizeInBytes() + " " + v._pdb.collector().needsIdle())
+			var r = v.handleRequestItemsWithinCommmit(request)
+		}
+		
+		var totalShouldBe = 1 + maxi + maxi*maxj;
+		assert(v._pdb.nodeCount(), totalShouldBe)
+		//writeln("nodes after writes = " + v._pdb.nodeCount(), " = ", totalShouldBe)
+		
+		maxi = maxi/2;
+		var request = [];
+		for(var i = 0; i < maxi; i++)
+		{
+			request.push(["rm", "",  "" + (1000 + i)])
+		}
+		var r = v.handleRequestItemsWithinCommmit(request)
+				
+		v.updateIdleTimerIfNeeded()
+		var self = this;
+		setTimeout(function() { self.done_test_collector(v, maxi, maxj); }, 1000)
+			
+		//v.close()	 // CAN'T CLOSE YET - GC NEEDS TO RUN
+		return ".."	
+	},
+	
+	done_test_collector: function(v, maxi, maxj)
+	{
+		//var info = v.api_dbinfo(["dbinfo"])
+		//writeln("nodes after collector = " + v._pdb.nodeCount())
+		var totalShouldBe = 1 + maxi + maxi*maxj;
+		assert(v._pdb.nodeCount(), totalShouldBe)
+		writeln("OK")
+		v.close()
 	}
 }).clone().run()

@@ -19,8 +19,15 @@ UnitTest = Proto.clone().newSlots({
 			if(name.beginsWith("test"))
 			{
 				sys.print("  ", name.after("_"))
-				this[name].call(this)
-				writeln(" OK")
+				var r = this[name].call(this)
+				if(r != null)
+				{
+					sys.print(r)
+				}
+				else
+				{
+					writeln(" OK")
+				}
 			}
 		}
 		//writeln("")
