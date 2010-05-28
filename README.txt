@@ -1,4 +1,3 @@
-
 ABOUT
 -----
 
@@ -33,13 +32,13 @@ By convention the meta slots "type" and "data" are used to indicate the node's t
 GARBAGE COLLECTION
 ------------------
 
-Nodes are never removed directly in Vertex, only slots are. When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection (both mark and sweep stages are incremental).
+Nodes are never removed directly in Vertex, only slots are. When the database grows above its highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection (both mark and sweep stages are incremental).
 
 
 REQUESTS, RESPONSES AND TRANSACTIONS
 ------------------------------------
 
-API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and it's arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
+API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
 Each request is processed within a transaction and if any action in a request produces an error, no further actions are processed and any writes that were made within the request are aborted (not committed to the database). The HTTP response will have a 500 status and a description of the action that caused the error and the reason for the error.
 
