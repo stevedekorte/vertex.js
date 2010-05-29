@@ -11,12 +11,13 @@ VertexSpeedTest = Proto.clone().newSlots({
 	{
 		this.vertexProcess().setDelegate(this).launch();
 		this._testQueue = [];
-
-	this._testQueue.push(
-		AbProcess.clone().setDelegate(this)
-			.setPostData('[["mk", "foo"], ["sync", 0]')
-			.setDescription("mk requests/second [synced]")
-	)
+	
+	
+		this._testQueue.push(
+			AbProcess.clone().setDelegate(this)
+				.setPostData('[["mk", "foo"], ["sync", 0]')
+				.setDescription("mk requests/second [synced]")
+		)
 	
 		this._testQueue.push(
 			AbProcess.clone().setDelegate(this)
@@ -55,7 +56,7 @@ VertexSpeedTest = Proto.clone().newSlots({
 		this._testQueue.push(
 			AbProcess.clone().setDelegate(this)
 				.setPostData('[["ls", "foo"]]')
-				.setDescription("ls requests/second [unsynced]\n")
+				.setDescription("ls requests/second\n")
 		)
 		
 		this._testQueue.push(
@@ -88,6 +89,18 @@ VertexSpeedTest = Proto.clone().newSlots({
 				.setPostData('[["mread", "data"],["mread", "data"],["mread", "data"],["mread", "data"],["mread", "data"],["mread", "data"],["mread", "data"],["mread", "data"],["mread", "data"],["mread", "data"]]')
 				.setDescription("mreads (10 pack) requests/second\n")
 				.setMultiplier(10)
+		)
+		
+		this._testQueue.push(
+			AbProcess.clone().setDelegate(this)
+				.setPostData('[["sfddfsfds"]')
+				.setDescription("invalid API methodName requests/second")
+		)
+	
+		this._testQueue.push(
+			AbProcess.clone().setDelegate(this)
+				.setPostData('[["mk"]')
+				.setDescription("invalid API parameter requests/second\n")
 		)
 
 		writeln("VertexPerformance test:")		
