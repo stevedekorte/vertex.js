@@ -1,34 +1,27 @@
 ABOUT
 -----
 
-vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Steve Dekorte and Rich Collins. 
+vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Rich Collins and Steve Dekorte. 
 
 ADVANTAGES
 ----------
 
-Speed
-
-Vertex.js services 100,000s of reads per second, 10,000s of writes per second and 1,000s of requests per second (official benchmarks forthcoming).
-
 Flexibility
 
-Vertex.js is schemaless.  It naturally models arbitrary graphs.  You avoid the hassles encountered when modeling irregular data with relational databases.
+Vertex.js is schemaless allowing it to naturally model arbitrary graphs and irregular data.
 
 Uptime
 
-Granular locking allows for data migrations that only disable individual features for individual user accounts.
-
-Scalability
-
-Graphs make it easy to manually partition data.  You just move a path to a new vertex.js instance.
+Fine grain migrations. The database is not locked during migrations (due to creation of large indexes).
 
 Extensibility
 
-Vertex.js supports addons.  You can modify the API and implement complex queries, all using javascript.
+Vertex.js supports addons.  You can extent and modify the API to implement complex queries, all using javascript.
 
-REST
+Simplicity
 
-All vertices in the database are accessible vias paths.  This provides natural mapping between URLs and DB objects.
+All vertices in the database are accessible via paths. This provides natural mapping between URLs and DB objects.
+
 
 INSTALL AND RUN
 ---------------
@@ -37,9 +30,11 @@ INSTALL AND RUN
 2) install tokyocabinet
 3) in the vertex.js folder, run:
 
-	node server.js
+		node server.js 
 
-   Run "node server.js -help" for a list of command line options.
+   For a list of command line options:
+
+		node server.js -help
 
 
 DATABASE STRUCTURE
@@ -62,12 +57,10 @@ GARBAGE COLLECTION
 Nodes are never removed directly in Vertex, only slots are. When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection of unreferenced nodes.
 
 
-REQUESTS, RESPONSES AND TRANSACTIONS
-------------------------------------
+REQUESTS AND RESPONSES
+----------------------
 
 API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
-
-Each request is processed within a transaction and if any action in a request produces an error, no further actions are processed and any writes that were made within the request are aborted (not committed to the database). The HTTP response will have a 500 status and a description of the action that caused the error and the reason for the error.
 
 
 SAMPLE REQUEST
@@ -114,6 +107,14 @@ ERROR CONDITIONS
 
 Errors are only raised when the database would be left in an undesired state. So removes never raise errors and reads return null if the path is absent. While writes and links do raise an error if the path does not exists.
 
+If any action in a request produces an error, no further actions are processed and any writes that were made within the request are aborted (not committed to the database). The HTTP response will have a 500 status and a description of the action that caused the error and the reason for the error.
+
+
+TRANSACTIONS AND DATABASE INTEGRITY
+-----------------------------------
+
+The "sync" action can be used to commit the write ahead log to the database. This action takes a argument specifying the maximum amount of time the database is allowed to keep the data in a volatile state (not hard synced). If this time is 0, the sync is done before the response is sent. By making this time greater than 0, the database can group writes together and greatly increase write throughput (by minimizing waits on hard syncs and allowing the OS to optimize write ordering), so it's best to set this time to the maximum amount that meets the needs of the individual requests.
+
 
 API ACTIONS
 -----------
@@ -126,6 +127,7 @@ API ACTIONS
 	mread(path, name)
 	mls(path)
 	mrm(path, name)
+	sync(dtInSeconds)
 
 
 API ACTION DESCRIPTIONS
@@ -220,7 +222,12 @@ mrm(path, name)
 	Errors: none
 	Returns: null
 
+sync(dt)
 
+	Writes: Tells vertex to do a hard sync within dt seconds. If dt is 0 or unspecified, a hard sync will be done before the response is sent.
+	Errors: none
+	Returns: null
+	
 TODO 
 ----
 
