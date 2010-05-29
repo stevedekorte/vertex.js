@@ -113,7 +113,7 @@ If any action in a request produces an error, no further actions are processed a
 TRANSACTIONS AND DATABASE INTEGRITY
 -----------------------------------
 
-The "sync" action can be used to commit the write ahead log to the database. This action takes a argument specifying the maximum amount of time the database is allowed to keep the data in a volatile state (not hard synced). If this time is 0, the sync is done before the response is sent. By making this time greater than 0, the database can group writes together and greatly increase write throughput (by minimizing waits on hard syncs and allowing the OS to optimize write ordering), so it's best to set this time to the maximum amount that meets the needs of the individual requests.
+The "sync" action can be used to commit the write ahead log to the database. This action takes a argument specifying the maximum amount of time the database is allowed to keep the data in a volatile state (not hard synced). If this time is 0, the sync is done before the response is sent, which is effectively the same as a traditional transaction. By making this time greater than 0, the database can group writes together into a single transaction and greatly increase write throughput (by minimizing waits on hard syncs and allowing the OS to optimize write ordering), so it's best to set this time to the maximum amount that meets the needs of the individual requests. Note: in this system, all actions within a request are guaranteed to be completely written or not written at all, there will be no partially completed requests.
 
 
 API ACTIONS

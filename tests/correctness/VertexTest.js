@@ -42,9 +42,9 @@ TestRequest = Proto.clone().newSlots({
 		{
 			var r = this.responseItems();
 			//writeln("\nerror: " + this.expectedResponseItems() + " != " + r + "\n");
-			throw new Error("response:\n\n" + JSON.stringify(r))
+			throw new Error("response:\n\n" + JSON.stringify(r));
 		}
-		this.delegate().didFinish(this)
+		this.delegate().didFinish(this);
 	},
 
 	send: function()
@@ -64,15 +64,15 @@ TestRequest = Proto.clone().newSlots({
 			function (response) 
 			{
 				//writeln("response")
-				request.response = response
-				response.request = request
+				request.response = response;
+				response.request = request;
 				response.setEncoding('utf8');
-				response._data = ""
+				response._data = "";
 
 				response.addListener('data',
 					function (chunk)
 					{
-						//writeln("got data: ", chunk)
+						//writeln("got data: ", chunk);
 						response._data = response._data + chunk;
 					}
 				);
@@ -80,17 +80,17 @@ TestRequest = Proto.clone().newSlots({
 				response.addListener('end', 
 					function ()
 					{
-						//writeln("end")
+						//writeln("end");
 						self.gotResponse(response);
 					}
 				);
 			}
 		);
 		
-		//writeln("SENDING data:", body)
-		request.write(body, 'utf8')
+		//writeln("SENDING data:", body);
+		request.write(body, 'utf8');
 		request.end();
-		//writeln("sent ", body)
+		//writeln("sent ", body);
 	}
 })
 
@@ -108,8 +108,8 @@ VertexTest = UnitTest.newSlots({
 	
 	didStart: function(proc)
 	{
-		//writeln("didStart")
-		this.runSilent()
+		//writeln("didStart");
+		this.runSilent();
 	},
 	
 	didExit: function(proc)
@@ -259,10 +259,10 @@ VertexTest = UnitTest.newSlots({
 
 if(true)
 {
-	var vt = VertexTest.clone()
+	var vt = VertexTest.clone();
 	var vertexProcess = VertexProcess.clone().setPort(testPort).setDelegate(vt).launch();
 }
 else
 {
-	VertexTest.clone().runSilent()
+	VertexTest.clone().runSilent();
 }
