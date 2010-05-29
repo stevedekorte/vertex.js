@@ -12,11 +12,11 @@ Vertex.js is schemaless allowing it to naturally model arbitrary graphs and irre
 
 Uptime
 
-Fine grain migrations. The database is not locked during migrations (due to creation of large indexes).
+Fine grain migrations. The database is not locked during migrations due to creation of large indexes.
 
 Extensibility
 
-Vertex.js supports addons.  You can extent and modify the API to implement complex queries, all using javascript.
+Vertex.js supports addons. You can extend and modify the API to implement complex queries or other protocols (e.g. memcache, Facebook graph API, etc), all using javascript.
 
 Simplicity
 
@@ -224,7 +224,8 @@ mrm(path, name)
 
 sync(dt)
 
-	Writes: Tells vertex to do a hard sync within dt seconds. If dt is 0 or unspecified, a hard sync will be done before the response is sent.
+	Writes: Tells vertex to do a hard sync within dt seconds. 
+		If dt is 0 or unspecified, a hard sync will be done before the response is sent.
 	Errors: none
 	Returns: null
 	
@@ -233,13 +234,8 @@ TODO
 
 Security: 
 	node permissions and cookies
-	db internal node /_internal/users/username/passwordhash
+	eg. db internal node /_internal/users/username/passwordhash
 
 Tests: 
-	single script to run all tests
-	run on separate port
-	performance tests report
-
-
-
+	complete tests for all action options
 
