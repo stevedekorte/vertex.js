@@ -5,3 +5,5 @@
 db/*
 !db/.gitisdumb
 addons/*
+tests/speed/data.txt
+*.db

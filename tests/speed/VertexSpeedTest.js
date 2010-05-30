@@ -1,6 +1,7 @@
 require("../../lib/lib");
 require("../VertexProcess");
 require("./AbProcess");
+require("./NodeBench");
 
 VertexSpeedTest = Proto.clone().newSlots({
 	protoType: "VertexSpeedTest",
@@ -12,11 +13,14 @@ VertexSpeedTest = Proto.clone().newSlots({
 		this.vertexProcess().setDelegate(this).launch();
 		this._testQueue = [];
 
-	this._testQueue.push(
-		AbProcess.clone().setDelegate(this)
-			.setPostData('[["mk", "foo"], ["sync", 0]')
-			.setDescription("mk requests/second [synced]")
-	)
+		var AbProcess = NodeBench;
+		AbProcess.setConcurrency(1);
+
+		this._testQueue.push(
+			AbProcess.clone().setDelegate(this)
+				.setPostData('[["mk", "foo"], ["sync", 0]')
+				.setDescription("mk requests/second [synced]")
+		)
 	
 		this._testQueue.push(
 			AbProcess.clone().setDelegate(this)
