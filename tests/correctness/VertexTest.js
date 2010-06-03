@@ -57,13 +57,13 @@ TestRequest = Proto.clone().newSlots({
 				'host': '127.0.0.1',
 				"Content-Type": "application/json-request",
 			    "Content-Length": body.length
+				//"Cookie": "user=guest; password=guest;"
 			});
 			
 
 		request.addListener('response', 
 			function (response) 
 			{
-				//writeln("response")
 				request.response = response;
 				response.request = request;
 				response.setEncoding('utf8');
@@ -87,7 +87,6 @@ TestRequest = Proto.clone().newSlots({
 			}
 		);
 		
-		//writeln("SENDING data:", body);
 		request.write(body, 'utf8');
 		request.end();
 		//writeln("sent ", body);

@@ -11,18 +11,20 @@ var option;
 var testProcess = null;
 
 while (option = args.shift())
-{
-	var value = args.shift();
-	
+{	
 	//writeln(option, ":", value);
 	
-	if(option == "-db")
+	if(option == "-v")
 	{
-		vertex.setPath(value);
+		vertex.setVerbose(true);
+	}
+	else if(option == "-db")
+	{
+		vertex.setPath(args.shift());
 	} 
 	else if (option == "-port")
 	{
-		vertex.setPort(new Number(value));
+		vertex.setPort(new Number(args.shift()));
 	} 
 	else if (option == "-test")
 	{

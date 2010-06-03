@@ -11,7 +11,69 @@ PDBSpeedTest = UnitTest.newSlots({
 	
 	test_speed: function()
 	{		
-		var max = 1000
+		var max = 100000
+
+		var t1 = new Date().getTime()
+		var pdb = this.newPdb().open()
+		pdb.atPut("a", "b")
+		pdb.begin()
+		for(var i = 0; i < max; i ++)
+		{
+			pdb._tc.get("a")
+		}
+		pdb.commit()
+		pdb.close()
+		var t2 = new Date().getTime()
+		var dt = (t2 - t1)/1000		
+		writeln("  " + Math.floor(max/dt) + " tc.gets/second")
+		
+
+		max = 100000
+		var t1 = new Date().getTime()
+		pdb.open()
+		//var pdb = this.newPdb().open()
+		var aNode = pdb.root().mk("a")
+		for(var i = 0; i < max; i ++)
+		{
+			aNode.mread(new String(i))
+		}
+		pdb.close()
+		var t2 = new Date().getTime()
+		var dt = (t2 - t1)/1000		
+		writeln("  " + Math.floor(max/dt) + " pdb.ats/second\n")
+
+
+
+		
+		var t1 = new Date().getTime()
+		var pdb = this.newPdb().open()
+		pdb.begin()
+		for(var i = 0; i < max; i ++)
+		{
+			pdb._tc.put(new String(i), "x")
+		}
+		pdb.commit()
+		pdb.close()
+		var t2 = new Date().getTime()
+		var dt = (t2 - t1)/1000		
+		writeln("  " + Math.floor(max/dt) + " tc.puts/second")
+
+
+		var t1 = new Date().getTime()
+		var pdb = this.newPdb().open()
+		pdb.begin()
+		for(var i = 0; i < max; i ++)
+		{
+			pdb.atPut(new String(i), "x")
+		}
+		pdb.commit()
+		pdb.close()
+		var t2 = new Date().getTime()
+		var dt = (t2 - t1)/1000		
+		writeln("  " + Math.floor(max/dt) + " pdb.atPuts/second")
+		
+		
+		max = 3000
 
 		var t1 = new Date().getTime()
 		var pdb = this.newPdb().open()
@@ -25,9 +87,9 @@ PDBSpeedTest = UnitTest.newSlots({
 		pdb.close()
 		var t2 = new Date().getTime()
 		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln("  " + Math.floor(max/dt) + " sync group writes per second")
-		
+		writeln("  " + Math.floor(max/dt) + " sync group pdb.mks/second")
+
+
 		
 		var t1 = new Date().getTime()
 		var pdb = this.newPdb().open()
@@ -41,59 +103,9 @@ PDBSpeedTest = UnitTest.newSlots({
 		pdb.close()
 		var t2 = new Date().getTime()
 		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln("  " + Math.floor(max/dt) + " individual sync writes per second")
-
+		writeln("  " + Math.floor(max/dt) + " individual sync pdb.mks/second\n")
 		
-		max = 100000
-		var t1 = new Date().getTime()
-		pdb.open()
-		//var pdb = this.newPdb().open()
-		var aNode = pdb.root().mk("a")
-		for(var i = 0; i < max; i ++)
-		{
-			aNode.mread(new String(i))
-		}
-		pdb.close()
-		var t2 = new Date().getTime()
-		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln("  " + Math.floor(max/dt) + " reads per second")
-	
-	
-		
-		var t1 = new Date().getTime()
-		var pdb = this.newPdb().open()
-		var aNode = pdb.root().mk("a")
-		pdb.begin()
-		for(var i = 0; i < max; i ++)
-		{
-			pdb._tc.put(new String(i), "x")
-		}
-		pdb.commit()
-		pdb.close()
-		var t2 = new Date().getTime()
-		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln("  " + Math.floor(max/dt) + " tc.puts per second")
-
-
-		var t1 = new Date().getTime()
-		var pdb = this.newPdb().open()
-		var aNode = pdb.root().mk("a")
-		pdb.begin()
-		for(var i = 0; i < max; i ++)
-		{
-			pdb.atPut(new String(i), "x")
-		}
-		pdb.commit()
-		pdb.close()
-		var t2 = new Date().getTime()
-		var dt = (t2 - t1)/1000		
-		//writeln(max + " writes in " + dt + " seconds")		
-		writeln("  " + Math.floor(max/dt) + " pdb.atPuts per second")
-
-		
+				
 		/*
 		// BIG INSERT
 		
