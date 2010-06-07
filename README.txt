@@ -234,8 +234,20 @@ TODO
 
 Security: 
 	node permissions and cookies
-	eg. db internal node /_internal/users/username/passwordhash
 
 Tests: 
 	complete tests for all action options
+
+
+FEEDBACK & COLLABORATION 
+------------------------
+
+Rich Collins
+email: richcollins@gmail.com
+aim: richwcollins
+
+Steve Dekorte
+email: steve@dekorte.com
+aim: stevedekorte
+
 
