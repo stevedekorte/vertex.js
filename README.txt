@@ -1,7 +1,8 @@
 ABOUT
 -----
 
-vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Rich Collins and Steve Dekorte. 
+vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Rich Collins and Steve Dekorte.
+
 
 ADVANTAGES
 ----------
@@ -21,6 +22,10 @@ Vertex.js supports addons. You can extend and modify the API to implement comple
 Simplicity
 
 All vertices in the database are accessible via paths. This provides natural mapping between URLs and DB objects.
+
+Scalability
+
+vertex.js is currently single server based, but before discounting it as not scalable, it's worth considering what your performance requirements are and if vertex.js can meet them. It can handle thousands of requests per second and a single modern machine server can have 512GB of RAM (more than enough room to cache most databases entirely in memory) and with an SSD and proper use of vertex's feature of allowing write requests to specify the max time they can stay volatile (thereby minimizing hard syncs) you may find that it outperforms cluster solutions for most tasks.
 
 
 INSTALL AND RUN

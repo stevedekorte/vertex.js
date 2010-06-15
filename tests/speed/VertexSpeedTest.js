@@ -97,6 +97,21 @@ VertexSpeedTest = Proto.clone().newSlots({
 				.setDescription("mk (10 pack) requests/second [unsynced]\n")
 				.setMultiplier(10)
 		)
+		
+		/*
+		var post = []
+		for (var i = 0; i < 1024; i ++)
+		{
+			post.push(["mk", "f1"])
+		}
+		
+		this._testQueue.push(
+			AbProcess.clone().setDelegate(this)
+				.setPostData(JSON.stringify(post))
+				.setDescription("mk (1024 pack) requests/second [unsynced]\n")
+				.setMultiplier(1024)
+		)
+		*/
 
 		this._testQueue.push(
 			AbProcess.clone().setDelegate(this)

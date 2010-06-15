@@ -57,7 +57,7 @@ TestRequest = Proto.clone().newSlots({
 				'host': '127.0.0.1',
 				"Content-Type": "application/json-request",
 			    "Content-Length": body.length
-				//"Cookie": "user=guest; password=guest;"
+				//"Cookie": "user=flynn; password=raindeerfloatilla;"
 			});
 			
 
@@ -254,6 +254,31 @@ VertexTest = UnitTest.newSlots({
 			]
 		)
 	}
+	/*
+	
+	test_permissions: function()
+	{
+		this.sendTest(
+			"mrm",
+			[
+				["vanish"], 
+				["mk", "foo/name"],
+				["mwrite", "foo", "user", "flynn"],
+				["mk", "_internal/users/flynn"],
+				["mwrite", "_internal/users/flynn", "password", "raindeerfloatilla"],
+				["mk", "foo/name"]
+			],
+			[
+				null,
+				null,
+				null,
+				null,
+				null,
+				["data"]
+			]
+		)
+	}
+	*/
 })
 
 if(true)
