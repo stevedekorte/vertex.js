@@ -1,7 +1,7 @@
 ABOUT
 -----
 
-vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as it's communication protocol and JSON as it's request and response data format. It's MIT licensed and was written by Rich Collins and Steve Dekorte.
+vertex.js is a graph database inspired by filesystems that supports automatic garbage collection and is built on node.js and tokyocabinet. It uses HTTP as its communication protocol and JSON as its request and response data format. It is MIT licensed and was written by Rich Collins and Steve Dekorte.
 
 
 ADVANTAGES
@@ -59,11 +59,12 @@ By convention the meta slots "type" and "data" are used to indicate the node's t
 GARBAGE COLLECTION
 ------------------
 
-Nodes are never removed directly in Vertex, only slots are. When the database grows above it's highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection of unreferenced nodes.
+Nodes are never removed directly in Vertex, only slots are. When the database grows above its highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection of unreferenced nodes.
 
 
 REQUESTS AND RESPONSES
 ----------------------
+API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
 API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
