@@ -6,7 +6,7 @@ var path = require('path');
 require('../UnitTest');
 require("../../lib/lib");
 
-var files = ['./PDBTest.js', './VertexBaseTest.js', './VertexTest.js'] //, './VertexPerfTest.js'];
+var files = ['./PDBTest.js', './VertexBaseTest.js', './VertexTest.js', './VertexPermissionsTest.js'];
 
 function nextFile()
 {
