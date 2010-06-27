@@ -12,7 +12,7 @@ VertexClient = Proto.clone().newSlots({
 	description: null,
 	username: null,
 	password: null,
-	debug: true
+	debug: false
 }).setSlots({
 	init: function()
 	{
@@ -174,10 +174,12 @@ VertexClient = Proto.clone().newSlots({
 			}
 		);
 		
-		if (this.debug)
+		
+		if (this.debug())
 		{
 			writeln(this._host + ":" + this._port + " sending [" + headers["Cookie"] + "] " + this._body);
 		}
+		
 		
 		request.write(this._body, 'utf8');
 		request.end();

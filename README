@@ -13,7 +13,7 @@ Vertex.js is schemaless allowing it to naturally model arbitrary graphs and irre
 
 Uptime
 
-Fine grain migrations. The database is not locked during migrations due to creation of large indexes.
+Fine grain migrations. The database is not locked during migrations or index creation.
 
 Extensibility
 
@@ -26,6 +26,10 @@ All vertices in the database are accessible via paths. This provides natural map
 Scalability
 
 vertex.js is currently single server based, but before discounting it as not scalable, it's worth considering what your performance requirements are and if vertex.js can meet them. It can handle thousands of requests per second and a single modern machine server can have 512GB of RAM (more than enough room to cache most databases entirely in memory) and with an SSD and proper use of vertex's feature of allowing write requests to specify the max time they can stay volatile (thereby minimizing hard syncs) you may find that it outperforms cluster solutions for most tasks.
+
+Security
+
+Unix style permissions on nodes are supported. This allows web clients to directly access the database without the need for an intermediary server that handles login and security issues. It also makes vertex a convenient for use as a primary user database.
 
 
 INSTALL AND RUN
@@ -48,18 +52,6 @@ DATABASE STRUCTURE
 The database is composed of nodes each of which have a lexically ordered list of named slots whose values point to other nodes and a separate list of meta slots whose values contain data. These lists are indexed (log(n) lookups) and support cursor-like operations so they can be use for most database applications.
 
 This is similar to a typical filesystem except directories (the equivalent of vertex's "nodes") contain separate namespaces for sub-directories ("slots") and files ("meta slots").
-
-
-META-SLOT CONVENTIONS
----------------------
-
-By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String, Number, etc) should contain data values. The meta slot names "_user", "_permissions" and "_access" are reserved for future use.
-
-
-GARBAGE COLLECTION
-------------------
-
-Nodes are never removed directly in Vertex, only slots are. When the database grows above its highwater mark (10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection of unreferenced nodes.
 
 
 REQUESTS AND RESPONSES
@@ -114,6 +106,26 @@ ERROR CONDITIONS
 Errors are only raised when the database would be left in an undesired state. So removes never raise errors and reads return null if the path is absent. While writes and links do raise an error if the path does not exists.
 
 If any action in a request produces an error, no further actions are processed and any writes that were made within the request are aborted (not committed to the database). The HTTP response will have a 500 status and a description of the action that caused the error and the reason for the error.
+
+
+META-SLOT CONVENTIONS
+---------------------
+
+By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String, Number, etc) should contain data values. The meta slot names "_user", "_group" and "_mode" are reserved for the permissions.
+
+
+PERMISSIONS
+-----------
+
+Permissions follow normal unix filesystem conventions. The _user meta slot on a node can be used to specify the owner (by username) of the file. The _group meta slot specify a group that has access permissions on the file. The _mode slot can contain a string describing the permissions in the following format "rwxrwxrwx", where the first three characters determine read, write and execute permissions for the user, the next three apply to the group and the last three to other (all users). If a character contains a "-" that access permission is denied. e.g. a mode of "rwx------" would only allow the user to read, write or execute the node.
+
+The user info is contained in the database itself in the path _internal/users/[username]. A user's password is contained on the node _internal/users/[username]/password in the data metaslot. When a request is processed, the HTTP cookie send with the request can contain "username" and "password" fields used to specify the login. It's recommended that this only be used with HTTPS. 
+
+
+GARBAGE COLLECTION
+------------------
+
+Nodes are never removed directly in Vertex, only slots are. When the database grows above its highwater mark (currently, 10% larger than when it was started) a garbage collection cycle begins which uses server idle time to do incremental collection of unreferenced nodes.
 
 
 TRANSACTIONS AND DATABASE INTEGRITY
@@ -238,11 +250,7 @@ sync(dt)
 TODO 
 ----
 
-Security: 
-	node permissions and cookies
-
-Tests: 
-	complete tests for all action options
+- complete tests for all action options
 
 
 FEEDBACK & COLLABORATION 

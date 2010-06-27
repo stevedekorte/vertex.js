@@ -9,15 +9,15 @@ require("../../client/VertexClient");
 
 var testPort = 8123;
 
-VertexTest = UnitTest.newSlots({
+VertexPermissionsTest = UnitTest.newSlots({
 	protoType: "VertexTest",
 	activeTests: 0
 }).setSlots({
 	init: function()
 	{
 		this._vc = VertexClient.clone().setPort(testPort);
-		//this._vertexProcess = VertexProcess.clone().setPort(testPort).setDelegate(this).launch();
-		this.test();
+		this._vertexProcess = VertexProcess.clone().setPort(testPort).setDelegate(this).launch();
+		//this.test();
 	},
 	
 	didStart: function(proc)
@@ -33,6 +33,7 @@ VertexTest = UnitTest.newSlots({
 	
 	createUserAndNode: function()
 	{
+		sys.print("VertexPermissionsTest:\n");
 		var username = "flynn";
 		var password = "reindeerfloatilla";
 		
@@ -41,35 +42,41 @@ VertexTest = UnitTest.newSlots({
 		this._vc.setPassword(password);
 		this._vc.mk("foo");
 		this._vc.mwrite("foo", "user", username);
-		this._vc.mwrite("foo", "access", "rwx------");
+		this._vc.mwrite("foo", "mode", "rwx------");
 		var self = this;
+		sys.print("  create user ");
 		this._vc.send(function() { self.verifyCreateAndTestValidWrite() });
 	},
 	
 	verifyCreateAndTestValidWrite: function(results)
 	{
-		writeln("\nresults1 = " + JSON.stringify(this._vc.results()) + "");
+		//writeln("\nresults1 = " + JSON.stringify(this._vc.results()) + "");
 		assert(this._vc.results().isEqual([null,null,null,null,null]));
+		sys.print("OK\n");
 		var self = this;
+		sys.print("  valid write ");
 		this._vc.mwrite("foo", "a", "1").send(function() { self.verifyValidWriteAndAttemptInvalidWrite() });
 	},
 	
 	verifyValidWriteAndAttemptInvalidWrite: function(results)
 	{
-		writeln("results2 = '" + JSON.stringify(this._vc.results()) + "'");
+		//writeln("results2 = '" + JSON.stringify(this._vc.results()) + "'");
 		assert(this._vc.results().isEqual([null]));
+		sys.print("OK\n");
 
 		this._vc.setPassword("wrongpassword")
 		var self = this;
+		sys.print("  invalid write ");
 		this._vc.mk("foo/a").send(function() { self.verifyInvalidWrite() });
 		//this._vc.mwrite("foo", "a", "1").send(function() { self.verifyInvalidWrite() });
 	},
 	
 	verifyInvalidWrite: function(results)
 	{
-		writeln("results3 = '" + JSON.stringify(this._vc.results()) + "'");
+		//writeln("results3 = '" + JSON.stringify(this._vc.results()) + "'");
 		//writeln("type = '" + typeof(this._vc.results()) + "'");
 		assert(typeof(this._vc.results()) == 'object');
+		sys.print("OK\n");
 
 		//this._vc.mwrite("foo", "user", username).send(function() { self.test2() });
 		if (this._vertexProcess) { this._vertexProcess.kill(); }
