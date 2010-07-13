@@ -29,7 +29,7 @@ vertex.js is currently single server based, but before discounting it as not sca
 
 Security
 
-Unix style permissions on nodes are supported. This allows web clients to directly access the database without the need for an intermediary server that handles login and security issues. It also makes vertex a convenient for use as a primary user database.
+Unix style permissions on nodes are supported. This allows web clients to directly access the database without the need for an intermediary server that handles login and security issues. It also makes vertex convenient for use as a primary user database.
 
 
 INSTALL AND RUN

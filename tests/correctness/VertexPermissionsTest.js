@@ -55,26 +55,25 @@ VertexPermissionsTest = UnitTest.newSlots({
 		sys.print("OK\n");
 		var self = this;
 		sys.print("  valid write ");
-		this._vc.mwrite("foo", "a", "1").send(function() { self.verifyValidWriteAndAttemptInvalidWrite() });
+		this._vc.mwrite("foo", "a", "1").send(function() { self.verifyValidWriteAndAttemptInvalidMWrite() });
 	},
 	
-	verifyValidWriteAndAttemptInvalidWrite: function(results)
+	verifyValidWriteAndAttemptInvalidMWrite: function(results)
 	{
 		//writeln("results2 = '" + JSON.stringify(this._vc.results()) + "'");
 		assert(this._vc.results().isEqual([null]));
 		sys.print("OK\n");
 
-		this._vc.setPassword("wrongpassword")
+		this._vc.setPassword("wrongpassword");
 		var self = this;
 		sys.print("  invalid write ");
-		this._vc.mk("foo/a").send(function() { self.verifyInvalidWrite() });
-		//this._vc.mwrite("foo", "a", "1").send(function() { self.verifyInvalidWrite() });
+		//this._vc.mk("foo/a").send(function() { self.verifyInvalidMWrite() });
+		this._vc.mwrite("foo", "a", "1").send(function() { self.verifyInvalidMWrite() });
 	},
 	
-	verifyInvalidWrite: function(results)
+	verifyInvalidMWrite: function(results)
 	{
 		//writeln("results3 = '" + JSON.stringify(this._vc.results()) + "'");
-		//writeln("type = '" + typeof(this._vc.results()) + "'");
 		assert(typeof(this._vc.results()) == 'object');
 		sys.print("OK\n");
 

@@ -69,8 +69,19 @@ VertexProcess = Proto.clone().newSlots({
 	
 	kill: function()
 	{
-		//writeln("VertexProcess kill")
-		this._child.kill()
+		this._child.kill();
+		/*
+		try
+		{
+			//writeln("VertexProcess kill")
+			this._child.kill();
+		}
+		catch (e)
+		{
+			
+		}
+		*/
+		
 	}
 });
 
