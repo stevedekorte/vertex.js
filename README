@@ -189,8 +189,8 @@ ls(path, optionalMaxNumber, optionalStart, optionalReverseBool, optionalReturnCo
 			Inline example. The Database node (meta slot names here are denoted with underscores):
 
 			{ 
-				"first name": { "_type": "String", "_data": "John" }, 
-				"age":  { "_type": "Number", "_data": "30" }, 
+				"first name": { "type": "String", "data": "John" }, 
+				"age":  { "type": "Number", "data": "30" }, 
 			}
 
 			Would be inlined as:
