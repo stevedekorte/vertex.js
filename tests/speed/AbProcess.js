@@ -56,7 +56,7 @@ AbProcess = Proto.clone().newSlots({
 		ab.stderr.addListener('data', function (data) { });
 
 		ab.addListener('exit', function (code) { 
-			//writeln("self._output = '", self._output, "'");
+			writeln("self._output = '", self._output, "'");
 			var rps = self._output.after("Requests per second:").before("[").trim();
 			self.setRequestsPerSecond(Math.floor(new Number(rps)));
 			//sys.puts("requestsPerSecond: " + rps);

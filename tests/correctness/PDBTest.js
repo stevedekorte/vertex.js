@@ -150,6 +150,20 @@ Tester = UnitTest.newSlots({
 		//pdb.show()
 		assert(pdb.rawKeyCount() == 1)
 		pdb.close()
+	},
+	
+	test_slotCursor: function()
+	{
+		
+		var root = PDB.clone().setPath("test.db").vanish();
+		
+		var a = root.mk("a");
+		var b = a.mk("b");
+		
+		var c = root.mk("b");
+		
+		c.first();
+		assert(c.key() == null);
 	}
 
 }).clone().run()

@@ -154,7 +154,7 @@ VertexClient = Proto.clone().newSlots({
 		
 		if(this._username)
 		{
-			headers["Cookie"] = "username=" + this._username + ";password=" + this._password + ";";
+			headers["Cookie"] = "ignoreAddons=true&username=" + this._username + ";password=" + this._password + ";";
 		}
 					
 		//writeln("this._username = " + this._username);
