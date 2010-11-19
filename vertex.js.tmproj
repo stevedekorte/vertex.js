@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>addons/VertexUI/LBPostsView.js</string>
+	<string>lib/Crux/Proto.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -23,6 +23,20 @@
 	<integer>419</integer>
 	<key>metaData</key>
 	<dict>
+		<key>README</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>207</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>151</integer>
+		</dict>
 		<key>addons/VertexUI/ButtonView.js</key>
 		<dict>
 			<key>caret</key>
@@ -42,28 +56,44 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>239</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>212</integer>
 		</dict>
 		<key>addons/VertexUI/LBPostsView.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>14</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>84</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>57</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
+				<key>line</key>
+				<integer>84</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>14</integer>
+				<key>line</key>
+				<integer>84</integer>
+			</dict>
 		</dict>
 		<key>addons/VertexUI/ListView.js</key>
 		<dict>
@@ -142,7 +172,7 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>2</integer>
 				<key>line</key>
 				<integer>54</integer>
 			</dict>
@@ -156,30 +186,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>9</integer>
+				<integer>0</integer>
 				<key>line</key>
 				<integer>511</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>482</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>511</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>16</integer>
-				<key>line</key>
-				<integer>511</integer>
-			</dict>
 		</dict>
 		<key>lib/Crux/Object.js</key>
 		<dict>
@@ -200,9 +214,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>46</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>30</integer>
+				<integer>23</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -364,42 +378,26 @@
 				<key>column</key>
 				<integer>4</integer>
 				<key>line</key>
-				<integer>255</integer>
+				<integer>455</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>228</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>255</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>4</integer>
-				<key>line</key>
-				<integer>255</integer>
-			</dict>
+			<integer>433</integer>
 		</dict>
 		<key>lib/Vertex/Vertex.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>340</integer>
+				<integer>590</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>296</integer>
+			<integer>559</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
@@ -411,6 +409,7 @@
 		<string>addons/VertexUI/ButtonView.js</string>
 		<string>addons/VertexUI/ListView.js</string>
 		<string>addons/VertexUI/HtmlView.js</string>
+		<string>README</string>
 		<string>addons/VertexUI/NodeView.js</string>
 		<string>lib/Crux/Proto.js</string>
 		<string>lib/Crux/Object.js</string>
