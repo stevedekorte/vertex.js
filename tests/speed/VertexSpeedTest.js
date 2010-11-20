@@ -44,7 +44,7 @@ TestRequest = Proto.clone().newSlots({
 			{
 				'host': '127.0.0.1',
 				"Content-Type": "application/json-request",
-			    "Content-Length": body.length
+			    "Content-Length": Buffer.byteLength(body.toString(), "utf8")
 				//"Cookie": "user=guest; password=guest;"
 			});
 			

@@ -149,7 +149,7 @@ VertexClient = Proto.clone().newSlots({
 		var headers = {
 				'Host': this._host,
 				"Content-Type": "application/json-request",
-			    "Content-Length": this._body.length
+			    "Content-Length": Buffer.byteLength(this._body.toString(), "utf8")
 		};
 		
 		if(this._username)

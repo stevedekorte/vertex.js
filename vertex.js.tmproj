@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>lib/Crux/Proto.js</string>
+	<string>lib/Vertex/PRecord.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -51,49 +51,63 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>addons/VertexUI/HtmlDocument.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>22</integer>
+		</dict>
 		<key>addons/VertexUI/HtmlView.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>239</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>212</integer>
-		</dict>
-		<key>addons/VertexUI/LBPostsView.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>14</integer>
-				<key>line</key>
-				<integer>84</integer>
+				<integer>420</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>57</integer>
+			<integer>409</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>6</integer>
+				<integer>25</integer>
 				<key>line</key>
-				<integer>84</integer>
+				<integer>420</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>14</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>84</integer>
+				<integer>420</integer>
 			</dict>
+		</dict>
+		<key>addons/VertexUI/LBInboxView.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>4</integer>
+				<key>line</key>
+				<integer>104</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>73</integer>
 		</dict>
 		<key>addons/VertexUI/ListView.js</key>
 		<dict>
@@ -114,14 +128,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>41</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>179</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>173</integer>
+			<integer>148</integer>
 		</dict>
 		<key>addons/VertexUI/PathView.js</key>
 		<dict>
@@ -172,14 +186,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>54</integer>
+				<integer>134</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>17</integer>
+			<integer>104</integer>
 		</dict>
 		<key>lib/Crux/Array.js</key>
 		<dict>
@@ -376,34 +390,82 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>6</integer>
 				<key>line</key>
-				<integer>455</integer>
+				<integer>243</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>217</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>243</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
+				<key>line</key>
+				<integer>243</integer>
+			</dict>
+		</dict>
+		<key>lib/Vertex/PRecord.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>24</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>433</integer>
+			<integer>0</integer>
 		</dict>
 		<key>lib/Vertex/Vertex.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>22</integer>
 				<key>line</key>
-				<integer>590</integer>
+				<integer>331</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>559</integer>
+			<integer>311</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>15</integer>
+				<key>line</key>
+				<integer>331</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>28</integer>
+				<key>line</key>
+				<integer>331</integer>
+			</dict>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>lib/Vertex/PNode.js</string>
+		<string>lib/Vertex/PRecord.js</string>
 		<string>addons/VertexUI/VertexUI.js</string>
+		<string>addons/VertexUI/HtmlDocument.js</string>
 		<string>lib/Vertex/Vertex.js</string>
 		<string>lib/Vertex/Log.js</string>
 		<string>addons/VertexUI/ButtonView.js</string>
@@ -413,7 +475,7 @@
 		<string>addons/VertexUI/NodeView.js</string>
 		<string>lib/Crux/Proto.js</string>
 		<string>lib/Crux/Object.js</string>
-		<string>addons/VertexUI/LBPostsView.js</string>
+		<string>addons/VertexUI/LBInboxView.js</string>
 		<string>lib/NodeCrux/String+Path.js</string>
 		<string>lib/Crux/String+Path.js</string>
 		<string>addons/VertexUI/PathView.js</string>
