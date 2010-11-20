@@ -7,3 +7,4 @@ String+Path
 String
 Number
 Date
+Delegator
