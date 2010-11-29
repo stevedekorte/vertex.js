@@ -60,3 +60,8 @@ if(testProcess == null)
 {
 	vertex.start();
 }
+
+process.on("SIGINT", function(){
+	writeln("received SIGINT");
+	process.exit();
+});
