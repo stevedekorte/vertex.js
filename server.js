@@ -49,6 +49,13 @@ while (option = args.shift())
 		writeln("")
 		process.exit()
 	}
+	else if(option == "-pid")
+	{
+		var pidFile = File.clone().setPath(args.shift()).setContents(process.pid.toString());
+		process.on("exit", function(){
+			pidFile.remove();
+		});
+	}
 	else
 	{
 		sys.puts("Unknown option '" + option + "'")
