@@ -61,7 +61,11 @@ if(testProcess == null)
 	vertex.start();
 }
 
-process.on("SIGINT", function(){
-	writeln("received SIGINT");
+function Vertex_exitSignal()
+{
+	writeln("received signal");
 	process.exit();
-});
+}
+
+process.on("SIGINT", Vertex_exitSignal);
+process.on("SIGTERM", Vertex_exitSignal);
