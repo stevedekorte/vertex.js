@@ -49,6 +49,13 @@ while (option = args.shift())
 		writeln("")
 		process.exit()
 	}
+	else if(option == "-pid")
+	{
+		var pidFile = File.clone().setPath(args.shift()).setContents(process.pid.toString());
+		process.on("exit", function(){
+			pidFile.remove();
+		});
+	}
 	else
 	{
 		sys.puts("Unknown option '" + option + "'")
@@ -60,3 +67,12 @@ if(testProcess == null)
 {
 	vertex.start();
 }
+
+function Vertex_exitSignal()
+{
+	writeln("received signal");
+	process.exit();
+}
+
+process.on("SIGINT", Vertex_exitSignal);
+process.on("SIGTERM", Vertex_exitSignal);
