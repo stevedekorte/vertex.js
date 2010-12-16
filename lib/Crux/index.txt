@@ -8,3 +8,4 @@ String
 Number
 Date
 Delegator
+Profiler
