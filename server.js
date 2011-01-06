@@ -56,6 +56,10 @@ while (option = args.shift())
 			pidFile.remove();
 		});
 	}
+	else if(option == "-require")
+	{
+		require(args.shift());
+	}
 	else
 	{
 		sys.puts("Unknown option '" + option + "'")
