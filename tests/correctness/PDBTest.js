@@ -163,7 +163,7 @@ Tester = UnitTest.newSlots({
 		var c = root.mk("b");
 		
 		c.first();
-		assert(c.key() == null);
+		assert(!c.key());
 	}
 
 }).clone().run()
