@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>lib/Vertex/PRecord.js</string>
+	<string>server.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -70,44 +70,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>38</integer>
+				<integer>3</integer>
 				<key>line</key>
 				<integer>420</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>409</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>25</integer>
-				<key>line</key>
-				<integer>420</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>38</integer>
-				<key>line</key>
-				<integer>420</integer>
-			</dict>
-		</dict>
-		<key>addons/VertexUI/LBInboxView.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>4</integer>
-				<key>line</key>
-				<integer>104</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>73</integer>
+			<integer>433</integer>
 		</dict>
 		<key>addons/VertexUI/ListView.js</key>
 		<dict>
@@ -150,36 +120,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>addons/VertexUI/TableView.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>65</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>38</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>19</integer>
-				<key>line</key>
-				<integer>65</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>65</integer>
-			</dict>
 		</dict>
 		<key>addons/VertexUI/VertexUI.js</key>
 		<dict>
@@ -279,36 +219,6 @@
 				<integer>21</integer>
 				<key>line</key>
 				<integer>68</integer>
-			</dict>
-		</dict>
-		<key>lib/NodeCrux/String+Path.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>12</integer>
-				<key>line</key>
-				<integer>13</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>13</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>14</integer>
-				<key>line</key>
-				<integer>13</integer>
 			</dict>
 		</dict>
 		<key>lib/NodeCrux/Url.js</key>
@@ -459,6 +369,20 @@
 				<integer>331</integer>
 			</dict>
 		</dict>
+		<key>server.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>25</integer>
+				<key>line</key>
+				<integer>3</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
@@ -471,16 +395,14 @@
 		<string>addons/VertexUI/ButtonView.js</string>
 		<string>addons/VertexUI/ListView.js</string>
 		<string>addons/VertexUI/HtmlView.js</string>
+		<string>server.js</string>
 		<string>README</string>
 		<string>addons/VertexUI/NodeView.js</string>
 		<string>lib/Crux/Proto.js</string>
 		<string>lib/Crux/Object.js</string>
-		<string>addons/VertexUI/LBInboxView.js</string>
-		<string>lib/NodeCrux/String+Path.js</string>
 		<string>lib/Crux/String+Path.js</string>
 		<string>addons/VertexUI/PathView.js</string>
 		<string>lib/Vertex/PDB.js</string>
-		<string>addons/VertexUI/TableView.js</string>
 		<string>lib/Crux/String.js</string>
 		<string>lib/Crux/Array.js</string>
 		<string>lib/NodeCrux/Url.js</string>
@@ -488,6 +410,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{433, 0}, {1247, 1028}}</string>
+	<string>{{652, 419}, {952, 642}}</string>
 </dict>
 </plist>
