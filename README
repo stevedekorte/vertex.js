@@ -212,6 +212,13 @@ rm(path, slotName)
 	Returns: null
 	
 
+rename(path, oldName, newName)
+
+	Writes: Renames the slot with oldName to newName. Overrights if slot already exits.
+	Errors: none
+	Returns: null
+
+
 mwrite(path, name, value)
 
 	Writes: At path, set/overwrite the meta slot named name to value.
@@ -234,11 +241,26 @@ mls(path)
 	Returns: a list of the meta slot names at path.
 
 
+mlsread(path)
+
+	Writes: none
+	Errors: Raises error if path does not exists.
+	Returns: a list of name/value tuples for the meta slot names and values at path.	
+
+
 mrm(path, name)
 
 	Writes: Removes the meta slot named name at path. 
 	Errors: none
 	Returns: null
+
+
+mrename(path, oldName, newName)
+
+	Writes: Renames the meta slot with oldName to newName. Overrights if slot already exits.
+	Errors: none
+	Returns: null
+
 
 sync(dt)
 
