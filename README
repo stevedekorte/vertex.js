@@ -61,6 +61,22 @@ API requests are sent as HTTP POST messages with the content type of "applicatio
 API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
 
+PATHS
+-----
+
+All paths in requests are passed a JSON array of the path components. 
+e.g. the string path of:
+
+	"/a/b/c"
+
+should be passed as:
+
+	["a", "b", "c"]
+
+This eliminates the need to encode slashes within the strings, so normal JSON string encodings can be used.
+Also, all paths in requests are absolute paths.
+
+
 SAMPLE REQUEST
 --------------
 
@@ -69,8 +85,8 @@ SAMPLE REQUEST
 	Content-Length: X
 
 	[
-		["mk", "customers/John Doe/first name", "String", "John"],
-		["mread", "customers/John Doe/first name"]
+		["mk", ["customers", "John Doe", "first name"], "String", "John"],
+		["mread", ["customers", "John Doe", "first name"]]
 	]
 
 
@@ -95,7 +111,7 @@ ERROR RESPONSE
 	Status-Code: 500
 
 	{
-		action: ["mwrite", "customers/Joe Shmoe/first name"],
+		action: ["mwrite", ["customers", "Joe Shmoe", "first name"]],
 		message: "invalid path"
 	}
 
@@ -139,7 +155,7 @@ API ACTIONS
 
 	mk(path, optionalType, optionalData)
 	link(destPath, slotName, sourcePath)
-	ls(path, optionalStart, optionalReverse, optionalCount, optionalSelectExpression)
+	ls(path, optionalStart, optionalReverse, optionalReturnCount, optionalInlineBool, optionalSelectExpression)
 	rm(path, slotName)
 	mwrite(path, name, value)
 	mread(path, name)
@@ -278,12 +294,12 @@ TODO
 FEEDBACK & COLLABORATION 
 ------------------------
 
-Rich Collins
-email: richcollins@gmail.com
-aim: richwcollins
-
 Steve Dekorte
 email: steve@dekorte.com
 aim: stevedekorte
+
+Rich Collins
+email: richcollins@gmail.com
+aim: richwcollins
 
 
