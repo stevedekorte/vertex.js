@@ -56,7 +56,7 @@ This is similar to a typical filesystem except directories (the equivalent of ve
 
 REQUESTS AND RESPONSES
 ----------------------
-API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
+API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a dictionary. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
 API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
@@ -85,9 +85,15 @@ SAMPLE REQUEST
 	Content-Length: X
 
 	[
-		["mk", ["customers", "John Doe", "first name"], "String", "John"],
-		["mread", ["customers", "John Doe", "first name"]]
-	]
+		{ 
+			'path': ['customers', 'John Doe', 'street'], 
+			'do': 'mk',    
+			'meta': { 'type': 'String', 'value': '203 Oak' }
+		},
+		{ 
+			'path': ['customers', 'John Doe', 'street'],
+			'do': 'mread',
+	]	}
 
 
 SUCCESS RESPONSE
@@ -99,7 +105,7 @@ SUCCESS RESPONSE
 
 	[
 		null,
-		"John",
+		{ 'type': 'String', 'value': '203 Oak' }
 	]
 
 
@@ -111,7 +117,7 @@ ERROR RESPONSE
 	Status-Code: 500
 
 	{
-		action: ["mwrite", ["customers", "Joe Shmoe", "first name"]],
+		action: { 'do': 'mwrite', 'path': ['customers', 'Joe Shmoe', 'first name'] },
 		message: "invalid path"
 	}
 
@@ -119,7 +125,7 @@ ERROR RESPONSE
 ERROR CONDITIONS
 ----------------
 
-Errors are only raised when the database would be left in an undesired state. So removes never raise errors and reads return null if the path is absent. While writes and links do raise an error if the path does not exists.
+Errors are only raised when the database would be left in an undesired state. So removes never raise errors and reads return null if the path is absent, while writes and links do raise an error if the path does not exists.
 
 If any action in a request produces an error, no further actions are processed and any writes that were made within the request are aborted (not committed to the database). The HTTP response will have a 500 status and a description of the action that caused the error and the reason for the error.
 
@@ -127,7 +133,7 @@ If any action in a request produces an error, no further actions are processed a
 META-SLOT CONVENTIONS
 ---------------------
 
-By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String, Number, etc) should contain data values. The meta slot names "_user", "_group" and "_mode" are reserved for the permissions.
+By convention the meta slots "type" and "data" are used to indicate the node's type and to store raw data associated with it. Only primitive nodes types (such as String, Number, etc) should contain data values. The meta slot names "_user", "_group" and "_mode" are reserved for  permissions.
 
 
 PERMISSIONS
@@ -153,15 +159,17 @@ The "sync" action can be used to commit the write ahead log to the database. Thi
 API ACTIONS
 -----------
 
-	mk(path, optionalType, optionalData)
-	link(destPath, slotName, sourcePath)
-	ls(path, optionalStart, optionalReverse, optionalReturnCount, optionalInlineBool, optionalSelectExpression)
-	rm(path, slotName)
-	mwrite(path, name, value)
-	mread(path, name)
-	mls(path)
-	mrm(path, name)
-	sync(dtInSeconds)
+	{ do:'mk', path:, meta:)
+	{ do:'link', dest:, slot:, source: }
+	{ do:'ls', path:, options: { start:, reverse:, max:, justCount:, inline: } }
+	{ do:'rm, path:, slot: }
+	{ do:'rename', path:, old:, new:)
+	{ do:'mwrite', path:, slot:, value: }
+	{ do:'mread', path:, slot: }
+	{ do:'mls', path: }
+	{ do:'mrm', path:, slot: }
+	{ do:'mrename', path:, old:, new:)
+	{ do:'sync', dt: }
 
 
 API ACTION DESCRIPTIONS
@@ -170,35 +178,34 @@ API ACTION DESCRIPTIONS
 Where not otherwise stated, all arguments are assumed to be strings. 
 Boolean values treat null for false and non-null (1 is recommended) for true.
 
-mk(path, optionalType, optionalData)
+{ do:'mk', path:, meta:aDict)
 
 	Writes: Create a node at path (creating any necessary path components 
 		to that path). No change is made if the node is already present.
 	Options:
-		optionalType: if provided, the node's "type" meta slot is set to the value.
-		optionalData: if provided, the node's "data" meta slot is set to the value.
+		meta: the node's meta slots are set to match the dictionary. All dictionary values must be strings.
 	Errors: none
 	Returns: null
 
 
-link(destPath, slotName, sourcePath)
+{ do:'link', dest: destPath, slot:slotName, source: sourcePath }
 
 	Writes: At destPath, add a slot with named slotName that points to the node at sourcePath.
 	Errors: An error occurs if either node does not already exist.
 	Returns: null
 
 
-ls(path, optionalMaxNumber, optionalStart, optionalReverseBool, optionalReturnCount, optionalInlineBool, selectExpression)
+{ do:'ls', path:, options: { start:, reverse:, max:, justCount:, inline: } }
 
 	Writes: none
 	Returns: a list of slot names at path.
 	Options:
-		optionalStart: if given, the list starts at the first (or last, if 
+		start: if given, the list starts at the first (or last, if 
 			optionalReverse is not null) key matching or after the optionalStart string. 
-		optionalReverseBool: if not null, the enumeration occurs in reverse order.
-		optionalMaxNumber: if specified, limits the max number of returned results.
-		optionalReturnCount: Return only the count of the result list, and not the items themselves.
-		optionalInlineBool: [not yet implemented] if non-null, instead of each item 
+		reverse: if not null, the enumeration occurs in reverse order.
+		max: if specified, limits the max number of returned results.
+		justCount: Return only the count of the result list, and not the items themselves.
+		inline: [not yet implemented] if non-null, instead of each item 
 			being a slot name, it will be a list containing the slot name and a json 
 			object with the inlined values for primitive types such as strings and numbers.
 
@@ -215,70 +222,67 @@ ls(path, optionalMaxNumber, optionalStart, optionalReverseBool, optionalReturnCo
 				["John Doe", { "first name": "John", "age": 30 }]
 			}
 
-		selectExpression: [not yet implemented] a string which will be evaled to a function 
-			used to select the matching results.
 	Errors: none
 
 
 
-rm(path, slotName)
+{ do:'rm, path:, slot: }
 
-	Writes: Removes the slot named slotName on the node at path.
+	Writes: Removes the specified slot name on the node at path.
 	Errors: none
 	Returns: null
 	
 
-rename(path, oldName, newName)
+{ do:'rename', path:, old:oldSlot, new:newSlot)
 
-	Writes: Renames the slot with oldName to newName. Overrights if slot already exits.
+	Writes: Renames the slot with specified oldSlot name to the specified newSlot name. Overrights if slot already exits.
 	Errors: none
 	Returns: null
 
+{ do:'mwrite', path:, slot:, value: }
 
-mwrite(path, name, value)
-
-	Writes: At path, set/overwrite the meta slot named name to value.
+	Writes: At path, set/overwrite the specified meta slot to value.
 	Errors: Raises error if the path does not exist.
 	Returns: null
 
 
-mread(path, name)
+{ do:'mread', path:, slot: }
 
 	Writes: none
 	Errors: none
-	Returns: a string containing the value of meta slot named name at path 
+	Returns: a string containing the value of specified meta slot at path 
 		or null if the path does not exist or slot is not present.
 	
 
-mls(path)
+{ do:'mls', path: }
 
 	Writes: none
 	Errors: Raises error if path does not exists.
 	Returns: a list of the meta slot names at path.
 
 
-mlsread(path)
+{ do:'mlsread', path: }
 
 	Writes: none
 	Errors: Raises error if path does not exists.
-	Returns: a list of name/value tuples for the meta slot names and values at path.	
+	Returns: a dictionary containing all meta slot names and values at path.	
 
 
-mrm(path, name)
+{ do:'mrm', path:, slot: }
 
-	Writes: Removes the meta slot named name at path. 
+	Writes: Removes the meta slot at path. 
 	Errors: none
 	Returns: null
 
 
-mrename(path, oldName, newName)
+{ do: 'mrename', path:, old:oldName, new:newName: }
 
 	Writes: Renames the meta slot with oldName to newName. Overrights if slot already exits.
 	Errors: none
 	Returns: null
 
 
-sync(dt)
+{ do:'sync', in:dt }
 
 	Writes: Tells vertex to do a hard sync within dt seconds. 
 		If dt is 0 or unspecified, a hard sync will be done before the response is sent.
