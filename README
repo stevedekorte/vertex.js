@@ -58,8 +58,6 @@ REQUESTS AND RESPONSES
 ----------------------
 API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a dictionary. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
 
-API requests are sent as HTTP POST messages with the content type of "application/json-request". The JSON request is a list of actions and each action is a list containing the name of the action and its arguments. Responses are a list with an item (containing the results) for each of the actions in the request. Actions that have no responses typically return null. 
-
 
 PATHS
 -----
